@@ -1,7 +1,7 @@
-# Smarticale
+# Smarticle
 
 Welcome to our group social project.
-'Smarticale' is an open-source platform that is meant to be used by everyone.
+'Smarticle' is an open-source platform that is meant to be used by everyone.
 The platform is meant to share knowledge with users around the world,
 help acquire skills and open up additional lines of thought.
 
@@ -18,14 +18,14 @@ In order to contribute please refer to the [CONTRIBUTING.md](https://github.com/
 
 # Getting started
 
-In order to run **Smarticale** you should install:
+In order to run **Smarticle** you should install:
 
 - [Vagrant](https://www.vagrantup.com/downloads)
 - [VirtualBox](https://www.virtualbox.org/) hypervisor(VMM)
 
 ### Run The Project
 
-1. Clone [Smarticale](https://github.com/redhat-beyond/Smarticle) repository.
+1. Clone [Smarticle](https://github.com/redhat-beyond/Smarticle) repository.
   ``` git clone https://github.com/redhat-beyond/Smarticle ``
 2. Navigate via terminal to the cloned directory.
 3. Run the 'vagrant up' command
