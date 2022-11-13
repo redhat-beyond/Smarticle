@@ -1,7 +1,7 @@
 # Contributing
 Welcome to the CONTRIBUTING.md file of "Smarticle" project. Please read this document thoroughly - follow it in all your interactions with the project.  
    
-## Pre-Requirements  
+## Dev environment setup  
 To contribute to our community project, download and install the following:  
 1.	Vagrant  
 2.	VirtualBox(or other VM that works with "Vagrant")  
@@ -9,11 +9,19 @@ After the installations are complete successfully, by typing 'vagrant up' in the
   
 ## Pull Request Process  
 1.	Create an issue, address the Assignees and the Label.  
-2.	Clone the repository and make a contribution, commit change\s.  
-3.	Make sure the PR has been checked thoroughly before creating the new PR. todo  
+2.	Clone the repository and make a contribution, commit changes.  
+3.	Make sure the PR has been checked thoroughly before creating the new PR.
 4.	flake8 will test relevant python code.  
-5.	if the PR gets enough support from the maintainers, it will be approved and merged.  
-*	note that conflicts within the PR may cause the PR to be disapproved.  
+5.  Once PR gets enough approvals from the Reviewers,It is ready to merge,
+6.  Merge is done by Core Reviewers once it is approved by Reviewers. 
+
+## Guidelines for quick PR merge
+* Commit description should include subject, empty line followed with comment in more details
+* In case commit resolves and Issue please resolves #Issue_id
+* PR should be as smaller as possible.
+* PR should not have merge conflicts (rebase, push --force)
+* PR should (optional) include tests which covers the PR change
+* At least 2 Reviewers should Approve this PR
   
 ## Testing  
 ### Testing with Flake8  
