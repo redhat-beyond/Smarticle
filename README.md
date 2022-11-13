@@ -26,7 +26,7 @@ In order to run **Smarticle** you should install:
 ### Run The Project
 
 1. Clone [Smarticle](https://github.com/redhat-beyond/Smarticle) repository.
-  ``` git clone https://github.com/redhat-beyond/Smarticle ``
+  ``` git clone https://github.com/redhat-beyond/Smarticle ```
 2. Navigate via terminal to the cloned directory.
 3. Run the 'vagrant up' command
 4. Use any browser and navigate to http://localhost:8000.
