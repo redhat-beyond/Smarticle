@@ -38,7 +38,7 @@ class Article(models.Model):
     """
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=1000)
-    subject_id = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)
+    subject_id = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField()
     date = models.DateTimeField(default=timezone.now)
 
