@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class Subject(models.Model):
@@ -9,6 +10,19 @@ class Subject(models.Model):
     name- A string, the subject name
     """
     name = models.CharField(max_length=100)
+
+    @staticmethod
+    def get_subject_by_name(name):
+        """
+        Method get subject name and return Subject object if exist, otherwise None
+        :param name: the name to search
+        :return: Subject object
+        """
+        try:
+            subject = User.objects.get(name=name)
+        except ObjectDoesNotExist:
+            return None
+        return subject
 
 
 class User(models.Model):
@@ -24,6 +38,19 @@ class User(models.Model):
     password = models.CharField(max_length=70)
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100, unique=True)
+
+    @staticmethod
+    def get_user_by_nickname(nickname):
+        """
+        Method get nickname and return User object if exist, otherwise None
+        :param nickname: the nickname to search
+        :return: User object
+        """
+        try:
+            user = User.objects.get(nickname=nickname)
+        except ObjectDoesNotExist:
+            return None
+        return user
 
 
 class Article(models.Model):
@@ -41,6 +68,19 @@ class Article(models.Model):
     subject_id = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField()
     date = models.DateTimeField(default=timezone.now)
+
+    @staticmethod
+    def get_article_by_user(user):
+        """
+        Method return the first article of user (order by date)
+        :param user: the User to search
+        :return: Article object
+        """
+        try:
+            article = Article.objects.filter(user_id=user).order_by('date').first()
+        except ObjectDoesNotExist:
+            return None
+        return article
 
 
 class Like(models.Model):
