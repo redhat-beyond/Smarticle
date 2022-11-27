@@ -93,6 +93,42 @@ class Like(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
 
+    @staticmethod
+    def amount_of_likes_article(article_id):
+        """
+        Method return the amount of like of one article
+        :param article_id: The article to count his likes
+        :return: int, the amount of likes
+        """
+        return Like.objects.filter(article_id=article_id).count()
+
+    @staticmethod
+    def create_like(user_id, article_id):
+        """
+        Method create a new like
+        :param user_id: the user that like the article
+        :param article_id: the article that the user like
+        :return: the like that created
+        """
+        like = Like(user_id=user_id, article_id=article_id)
+        like.save()
+        return like
+
+    @staticmethod
+    def delete_like(user_id, article_id):
+        """
+        Method delete a like
+        :param user_id: the user that like the article
+        :param article_id: the article that the user like
+        :return: True if success
+        """
+        try:
+            like = Like.objects.get(user_id=user_id, article_id=article_id)
+            like.delete()
+            return True
+        except Like.DoesNotExist:
+            return False
+
 
 class View(models.Model):
     """
