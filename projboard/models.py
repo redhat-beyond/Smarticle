@@ -3,27 +3,6 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class Subject(models.Model):
-    """
-    Subject model
-
-    name- A string, the subject name
-    """
-    name = models.CharField(max_length=100)
-
-    @staticmethod
-    def get_subject_by_name(name):
-        """
-        Method get subject name and return Subject object if exist, otherwise None
-        :param name: the name to search
-        :return: Subject object
-        """
-        try:
-            subject = User.objects.get(name=name)
-        except ObjectDoesNotExist:
-            return None
-        return subject
-
 
 class User(models.Model):
     """
@@ -54,18 +33,21 @@ class User(models.Model):
 
 
 class Article(models.Model):
-    """
-    Article model
-
-    user_id- FK to User model
-    title- A string, the title of article
-    subject_id- FK to Subject model
-    content- A string, the content of article
-    date- A DateTime object, the date the article created
-    """
+    SUBJECTS = [
+            ('N', 'Nature'),
+            ('B', 'Business'),
+            ('T', 'Technology'),
+            ('E', 'Economie'),
+            ('I', 'Industry'),
+            ('P', 'Policy'),        
+            ('SC', 'Science'),
+            ('SP', 'Sport'),
+            ('LS', 'Life Style'),
+            ('O', 'Other'),
+    ]
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=1000)
-    subject_id = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
+    subject = models.CharField(default= 'O', blank = True, max_length=100, choices=SUBJECTS)
     content = models.TextField()
     date = models.DateTimeField(default=timezone.now)
 
@@ -90,8 +72,8 @@ class Like(models.Model):
     user_id- FK to User model
     article_id- FK to Article model
     """
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
 
 class View(models.Model):
@@ -101,5 +83,5 @@ class View(models.Model):
     user_id- FK to User model
     article_id- FK to Article model
     """
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
