@@ -69,6 +69,61 @@ class Article(models.Model):
     content = models.TextField()
     date = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.title
+    
+    def PartOfTitle(self, Charlen ):
+        """Returns a part of the title => useful for displaying article """
+        if len(self.title) <= Charlen :
+            return self.title
+        return '%s...' % (self.title[:Charlen])
+    
+    def PartOfContent(self, Charlen ):
+        """Returns a part of the content => useful for displaying article """
+        if len(self.content) <= Charlen :
+            return self.content
+        return '%s...' % (self.content[:Charlen])
+    
+    def Edite(self,title = None, content = None, subject = None):
+        if title is not None :
+            self.title = title
+        if content is not None :
+            self.content = content
+        # Should check this function 
+        if subject is not None and subject in Subject.objects.all() :
+            self.subject_id = subject
+        self.save()
+
+    @staticmethod     
+    def searchByTitle(title):
+        """ search of articles by title ( case insensitive ) """
+        return Article.objects.filter(title__icontains = title).order_by('title') 
+        
+    @staticmethod
+    def searchBySubject(subject):
+        try : 
+            articles = Article.objects.filter(subject_id = subject).order_by('title')
+        except ObjectDoesNotExist:
+            return None
+        return articles
+
+    @staticmethod
+    def searchByUser(user):
+        # Return all User articles
+        try :
+            articles = Article.objects.filter(user_id = user).order_by('date')
+        except ObjectDoesNotExist:
+            return None
+        return articles
+
+    @staticmethod
+    def filterByLikes():
+        x = [ Article.objects.get(id = i['article_id']) for i in Like.objects.values('article_id').annotate(num_likes = Count('article_id')).values('article_id')]
+        for i in Article.objects.all() :
+            if i not in x :
+                x.append(i)
+        return x
+
     @staticmethod
     def get_article_by_user(user):
         """
