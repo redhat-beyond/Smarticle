@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     def generate_like_data(apps, schema_editor):
-        from projboard.models import Like, User, Article
+        from projboard.models.models import Like, User, Article
 
         user1 = User.get_user_by_nickname("User1")
         user2 = User.get_user_by_nickname("User2")

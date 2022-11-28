@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     ]
 
     def generate_article_data(apps, schema_editor):
-        from projboard.models import Article, User, Subject
+        from projboard.models.models import Article, User, Subject
 
         user1 = User.get_user_by_nickname("User1")
         user2 = User.get_user_by_nickname("User2")

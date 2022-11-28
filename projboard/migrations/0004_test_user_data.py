@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     def generate_user_data(apps, schema_editor):
-        from projboard.models import User
+        from projboard.models.models import User
 
         test_data = [
             ['Smarticle@walla.co.il', '123456', 'John Doe', 'User1'],
