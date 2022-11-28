@@ -11,25 +11,25 @@ ARTICLE_TEST = Article(user_id=ARTICLE_DETAILS[0], title=ARTICLE_DETAILS[1],
 
 
 @pytest.fixture
-def generate_like(create_user, create_subject, create_article):
+def generate_like(db, create_user, create_subject, create_article):
     Like(user_id=create_user, article_id=create_article).save()
     return create_user, create_article
 
 
 @pytest.fixture
-def create_user():
+def create_user(db):
     USER_TEST.save()
     return USER_TEST
 
 
 @pytest.fixture
-def create_subject():
+def create_subject(db):
     SUBJECT_TEST.save()
     return SUBJECT_TEST
 
 
 @pytest.fixture
-def create_article():
+def create_article(db):
     ARTICLE_TEST.save()
     return ARTICLE_TEST
 
