@@ -52,6 +52,34 @@ class User(models.Model):
             return None
         return user
 
+    @staticmethod
+    def create_user(email, password, name, nickname):
+        """
+         Method creates a new user
+        :param email: user's email
+        :param password: user's password
+        :param name: user's name
+        :param nickname: user's nickname
+        :return: new user
+        """
+        user = User.objects.create_user(email=email, password=password, name=name, nickname=nickname)
+        user.save()
+        return user
+
+    @staticmethod
+    def delete_user(self):
+        """
+         Method to delete a user
+        :param nickname: nickname to get the user
+        :return:  TRUE/FALSE if the user deleted/not
+        """
+        try:
+            user = User.get_user_by_nickname('nickname')
+            user.delete()
+        except ObjectDoesNotExist:
+            return False
+        return True
+
 
 class Article(models.Model):
     """
