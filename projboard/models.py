@@ -129,6 +129,9 @@ class Like(models.Model):
         except Like.DoesNotExist:
             return False
 
+    def __str__(self):
+        return f"{self.user_id.name} Liked {self.article_id.title}"
+
 
 class View(models.Model):
     """
