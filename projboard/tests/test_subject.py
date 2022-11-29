@@ -16,17 +16,17 @@ def generate_subject(name='name'):
 
 class TestSubjectModel:
     @pytest.mark.django_db
-    def test_create_subject(self, generate_subject):
-        subject = Subject.create_new_subject(name=SPORT)
+    def test_create_subject(db):
+        subject = Subject.create_new_subject(SPORT)
         assert subject.name == SPORT
 
-        subject = Subject.create_new_subject(name=SPORT)
+        subject = Subject.create_new_subject(SPORT)
         assert subject.name == SPORT
 
     @pytest.mark.django_db
     def test_update_subject(self, generate_subject):
-        Subject.create_new_subject(name=SPORT)
-        subject = Subject.edit_subject(SPORT, ANIMALS)
+        Subject.create_new_subject(generate_subject)
+        subject = Subject.edit_subject(generate_subject, ANIMALS)
         assert subject.name == ANIMALS
 
         subject = Subject.edit_subject(NOTEXIST, ANIMALS)
@@ -37,13 +37,13 @@ class TestSubjectModel:
         result = Subject.delete_subject(NOTEXIST)
         assert not result
 
-        subject = Subject.create_new_subject(SPORT)
+        subject = Subject.create_new_subject(generate_subject)
         result = Subject.delete_subject(subject.name)
         assert result
 
     @pytest.mark.django_db
     def test_get_list_subjects_names(self, generate_subject):
-        subject = Subject.create_new_subject(SPORT)
+        subject = Subject.create_new_subject(generate_subject)
         subject1 = Subject.create_new_subject(ANIMALS)
         subject2 = Subject.create_new_subject(REDHAT)
         listSubject = Subject.get_list_subjects_names()
