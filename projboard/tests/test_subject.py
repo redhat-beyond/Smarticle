@@ -7,9 +7,16 @@ NOTEXIST = "notexist"
 REDHAT = "redhat"
 
 
+@pytest.fixture
+def generate_subject(name='name'):
+    subject = Subject(name=name)
+    subject.save()
+    return subject
+
+
 class TestSubjectModel:
     @pytest.mark.django_db
-    def test_create_subject(db):
+    def test_create_subject(self, generate_subject):
         subject = Subject.create_new_subject(name=SPORT)
         assert subject.name == SPORT
 
@@ -17,7 +24,7 @@ class TestSubjectModel:
         assert subject.name == SPORT
 
     @pytest.mark.django_db
-    def test_update_subject(db):
+    def test_update_subject(self, generate_subject):
         Subject.create_new_subject(name=SPORT)
         subject = Subject.edit_subject(SPORT, ANIMALS)
         assert subject.name == ANIMALS
@@ -26,7 +33,7 @@ class TestSubjectModel:
         assert not subject
 
     @pytest.mark.django_db
-    def test_delete_subject(db):
+    def test_delete_subject(self, generate_subject):
         result = Subject.delete_subject(NOTEXIST)
         assert not result
 
@@ -35,7 +42,7 @@ class TestSubjectModel:
         assert result
 
     @pytest.mark.django_db
-    def test_get_list_subjects_names(db):
+    def test_get_list_subjects_names(self, generate_subject):
         subject = Subject.create_new_subject(SPORT)
         subject1 = Subject.create_new_subject(ANIMALS)
         subject2 = Subject.create_new_subject(REDHAT)
