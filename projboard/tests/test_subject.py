@@ -1,5 +1,5 @@
 import pytest
-from projboard.models import Subject
+from projboard.models.subject import Subject
 
 ANIMALS = "Animals"
 NOTEXIST = "notexist"
