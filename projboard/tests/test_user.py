@@ -18,11 +18,11 @@ def generate_user():
 class TestUserModel:
     @pytest.mark.django_db()
     def test_new_user(self, generate_user):
-        user = User.get_user(generate_user.email, generate_user.nickname, generate_user.name, generate_user.nickname)
-        assert generate_user.name == user.name
-        assert generate_user.nickname == user.nickname
-        assert generate_user.email == user.email
-        assert generate_user.password == user.password
+        User.get_user(generate_user.email, generate_user.nickname, generate_user.name, generate_user.nickname)
+        assert generate_user.name == NAME
+        assert generate_user.nickname == NICKNAME
+        assert generate_user.email == EMAIL
+        assert generate_user.password == PASSWORD
 
     @pytest.mark.django_db()
     def test_create_user(self, generate_user):
