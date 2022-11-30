@@ -35,7 +35,6 @@ class TestSubjectModel:
 
     @pytest.mark.django_db
     def test_get_list_subjects_names(self, generate_subject):
-        subject = generate_subject[0]
         listSubject = Subject.get_list_subjects_names()
         for i in generate_subject:
-            assert subject.name in listSubject
+            assert i.name in listSubject
