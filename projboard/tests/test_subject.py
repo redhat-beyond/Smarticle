@@ -20,15 +20,11 @@ def generate_subject():
 @pytest.mark.django_db
 class TestSubjectModel:
     def test_create_subject(self, generate_subject):
-        subject = generate_subject[0]
-        assert subject.name == NAME
-        assert subject in Subject.objects.all()
+        assert generate_subject[0] in Subject.objects.all()
 
     def test_delete_subject(self, generate_subject):
-        assert Subject.delete_subject(generate_subject[0])
-        subject = Subject.get_subject_by_name(generate_subject[0])
-        assert not subject
-        assert subject not in Subject.objects.all()
+        Subject.delete_subject(generate_subject[0])
+        assert generate_subject[0] not in Subject.objects.all()
 
     def test_update_subject(self, generate_subject):
         subject = Subject.rename_subject(generate_subject[0], ANIMALS)
