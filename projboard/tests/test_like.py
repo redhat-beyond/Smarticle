@@ -1,6 +1,7 @@
 import pytest
-from projboard.models import Like, User, Article, Subject
-
+from projboard.models.user import User
+from projboard.models.subject import Subject
+from projboard.models.article import Article, Like
 
 TITLE = "Article Test"
 CONTENT = "I'm not gonna write all that!"
