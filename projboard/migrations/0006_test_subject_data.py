@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     def generate_subject_data(apps, schema_editor):
-        from projboard.models import Subject
+        from projboard.models.subject import Subject
 
         test_data = [
             'Sport',

@@ -1,11 +1,9 @@
 from django.contrib import admin
-from django.apps import apps
+from .models.article import Article, User, Subject, Like, View
 
 # Register your models here. # Register your models here.
-models = apps.get_models()
-
-for model in models:
-    try:
-        admin.site.register(model)
-    except admin.sites.AlreadyRegistered:
-        pass
+admin.site.register(Article)
+admin.site.register(User)
+admin.site.register(Like)
+admin.site.register(View)
+admin.site.register(Subject)
