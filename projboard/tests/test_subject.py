@@ -22,24 +22,24 @@ class TestSubjectModel:
     def test_create_subject(self, generate_subject):
         subject = generate_subject[0]
         assert subject.name == NAME
+        assert subject in Subject.objects.all()
 
     def test_delete_subject(self, generate_subject):
         assert Subject.delete_subject(generate_subject[0])
         subject = Subject.get_subject_by_name(generate_subject[0])
         assert not subject
+        assert subject not in Subject.objects.all()
 
     def test_update_subject(self, generate_subject):
-        subject = generate_subject[0]
-        subject = Subject.edit_subject(generate_subject[0], ANIMALS)
+        subject = Subject.rename_subject(generate_subject[0], ANIMALS)
         assert subject.name == ANIMALS
 
-        subject = Subject.edit_subject(NOTEXIST, ANIMALS)
+        subject = Subject.rename_subject(NOTEXIST, ANIMALS)
         assert not subject
 
     @pytest.mark.django_db
     def test_get_list_subjects_names(self, generate_subject):
         subject = generate_subject[0]
-        subject1 = generate_subject[1]
         listSubject = Subject.get_list_subjects_names()
-        assert subject.name in listSubject
-        assert subject1.name in listSubject
+        for i in generate_subject:
+            assert subject.name in listSubject

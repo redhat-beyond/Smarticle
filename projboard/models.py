@@ -52,9 +52,9 @@ class Subject(models.Model):
             return subject
 
     @staticmethod
-    def edit_subject(existing_name, new_name):
+    def rename_subject(existing_name, new_name):
         """
-        Method Edit the subject name
+        Method rename the subject name
         :param existing_name: The name of the existing subject
         :param new_name: The new name of the subject
         :return: The new name of the subject
