@@ -2,7 +2,6 @@ import pytest
 from projboard.models.article import View, User, Article, Subject
 
 
-
 TITLE = "Article Test"
 CONTENT = "Anas not gonna write all that!"
 NAME = "Amit"
@@ -14,9 +13,9 @@ class TestViewModel:
     @pytest.fixture
     @pytest.mark.django_db
     def create_subjects(self):
-        sup = Subject(name='N')
-        sup.save()
-        return sup
+        subject = Subject(name='N')
+        subject.save()
+        return subject
 
     @pytest.fixture
     @pytest.mark.django_db
