@@ -124,7 +124,6 @@ class Article(models.Model):
 class Like(models.Model):
     """
     Like model
-
     user_id- FK to User model
     article_id- FK to Article model
     """
@@ -174,7 +173,6 @@ class Like(models.Model):
 class View(models.Model):
     """
     View model
-
     user_id- FK to User model
     article_id- FK to Article model
     """
