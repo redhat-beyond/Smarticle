@@ -30,7 +30,7 @@ class User(models.Model):
         return user
 
     @staticmethod
-    def get_user(email, password, name, nickname):
+    def create_user(email, password, name, nickname):
         """
          Method to create a new user,
          but also checks if user is already exists
@@ -41,24 +41,20 @@ class User(models.Model):
         :param nickname: user's nickname
         :return: new user
         """
-        try:
-            user = User.objects.get(nickname=nickname)
-            # user = User.objects.get(email=email)
-            return user
-        except User.DoesNotExist:
-            user = User(email=email, password=password, name=name, nickname=nickname)
-            user.save()
-            return user
+        user = User(email=email, password=password, name=name, nickname=nickname)
+        # user = User.objects.get(email=email)
+        user.save()
+        return user
 
     @staticmethod
-    def delete_user(nickname):
+    def delete_user_by_nickname(nickname):
         """
-         Method to delete a user
+         Method to delete a user by his nickname
         :param nickname: nickname to get the user
         :return:  TRUE/FALSE if the user deleted/not
         """
         try:
-            user = User.objects.get(nickname=nickname)
+            user = User.get_user_by_nickname(nickname=nickname)
             user.delete()
         except User.DoesNotExist:
             return False
