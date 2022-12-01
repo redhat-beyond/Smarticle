@@ -9,6 +9,7 @@ from .user import User
 class Article(models.Model):
     """
     Article model
+
     user_id- FK to User model
     title- A string, the title of article
     subject_id- FK to Subject model
@@ -123,6 +124,7 @@ class Article(models.Model):
 class Like(models.Model):
     """
     Like model
+
     user_id- FK to User model
     article_id- FK to Article model
     """

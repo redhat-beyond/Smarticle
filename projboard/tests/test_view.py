@@ -1,5 +1,7 @@
 import pytest
-from projboard.models.article import View, User, Article, Subject
+from projboard.models.user import User
+from projboard.models.article import Article, View
+from projboard.models.subject import Subject
 
 
 TITLE = "Article Test"
