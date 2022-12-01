@@ -180,3 +180,24 @@ class View(models.Model):
     """
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+    @staticmethod
+    def amount_of_views_article(article_id):
+        """
+        Method to return the amount of views of an article
+        :param article_id: The article to count the views on
+        :return: int, the amount of views
+        """
+        return View.objects.filter(article_id=article_id).count()
+
+    @staticmethod
+    def create_view(user_id, article_id, db):
+        """
+        Method create a new view
+        :param user_id: the user that viewed the article
+        :param article_id: the article that the user viewed
+        :return: the view that created
+        """
+        view = View(user_id=user_id, article_id=article_id)
+        view.save()
+        return view
