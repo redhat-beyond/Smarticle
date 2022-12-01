@@ -60,8 +60,8 @@ class User(models.Model):
             return False
         return True
 
-    @staticmethod
-    def get_user_articles_by_likes(nickname):
+    # @staticmethod
+    # def get_user_articles_by_likes(nickname):
         """
         Method get nickname and return User object if exist, otherwise None
         :param nickname: the nickname to search
@@ -74,8 +74,8 @@ class User(models.Model):
             return None
         return user
 
-    @staticmethod
-    def get_user_articles_by_views(nickname):
+    # @staticmethod
+    # def get_user_articles_by_views(nickname):
         """
         Method get nickname and return User object if exist, otherwise None
         :param nickname: the nickname to search
