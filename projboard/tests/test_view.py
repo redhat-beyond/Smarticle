@@ -2,6 +2,7 @@ import pytest
 from projboard.models.article import View, User, Article, Subject
 
 
+
 TITLE = "Article Test"
 CONTENT = "Anas not gonna write all that!"
 NAME = "Amit"

@@ -5,7 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 class User(models.Model):
     """
     User model
-
     email- User's Email
     password- User's password
     name- User's name

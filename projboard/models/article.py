@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count
 from .subject import Subject
 from .user import User
 
@@ -9,7 +8,6 @@ from .user import User
 class Article(models.Model):
     """
     Article model
-
     user_id- FK to User model
     title- A string, the title of article
     subject_id- FK to Subject model
@@ -124,7 +122,6 @@ class Article(models.Model):
 class Like(models.Model):
     """
     Like model
-
     user_id- FK to User model
     article_id- FK to Article model
     """
