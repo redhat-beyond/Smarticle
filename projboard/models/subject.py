@@ -5,7 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 class Subject(models.Model):
     """
     Subject model
-
     name- A string, the subject name
     """
     name = models.CharField(max_length=100)
