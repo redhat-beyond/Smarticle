@@ -39,37 +39,25 @@ class TestArticle:
 
         return articles_list
 
-    @pytest.mark.skip
     @pytest.mark.django_db
-    def test_objectCreation(self, create_articles):
-        article = create_articles[0]
-        assert article.title == TITLE
-        assert article.content == CONTENT
-        # testing __str__ function
-        assert article.__str__() == article.title
-
-    # @pytest.mark.skip
-    @pytest.mark.django_db
-    def test_PartFunctions(self, create_articles):
+    def test_part_functions(self, create_articles):
         article = create_articles[0]
         # testing @property functions => PartOf..()
         # whent title & content length is less than reality
-        assert article.PartOfTitle(5) == article.title[:5] + '...'
-        assert article.PartOfContent(5) == article.content[:5] + '...'
+        assert article.part_of_title(5) == article.title[:5] + '...'
+        assert article.part_of_content(5) == article.content[:5] + '...'
         # whent title & content length is greater than reality
-        assert article.PartOfTitle(100) == article.title[:100]
-        assert article.PartOfContent(100) == article.content[:100]
+        assert article.part_of_title(100) == article.title[:100]
+        assert article.part_of_content(100) == article.content[:100]
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_objectSavedInDb(self, create_articles):
+    def test_object_saved_in_db(self, create_articles):
         assert create_articles[0] in Article.objects.all()
         assert create_articles[1] in Article.objects.all()
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
     # using Edite function
-    def test_EditObject(self, create_articles, create_subjects):
+    def test_edit_object(self, create_articles, create_subjects):
 
         article = create_articles[0]
         title = "New Title"
@@ -79,48 +67,46 @@ class TestArticle:
 
         assert article.subject_id == old_subject
 
-        article.Edit(title, content, subject)
+        article.edit(title, content, subject)
 
         assert article.title == title
         assert article.content == content
         assert article.subject_id == subject
         # if subject not in Article.SUBJECTS the value won't be changed
         unsaved_subject = Subject(name='k')
-        article.Edit(subject=unsaved_subject)
+        article.edit(subject=unsaved_subject)
         assert article.subject_id == subject
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_searchObjects(self, create_articles, create_subjects, create_user):
+    def test_search_objects(self, create_articles, create_subjects, create_user):
         user1 = create_user[1]
         article_list = [i for i in create_articles]
         subject1 = create_subjects[1]
 
         # search by title or a part of it
-        assert article_list[1] in Article.searchByTitle("Test")
+        assert article_list[1] in Article.search_by_title("Test")
 
         # search by user
-        assert article_list[1] in Article.searchByUser(user1)
+        assert article_list[1] in Article.search_by_user(user1)
 
         # search by subject
-        assert article_list[1] in Article.searchBySubject(subject1)
+        assert article_list[1] in Article.search_by_subject(subject1)
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_searchObjectsNoneExists(self, create_articles, create_subjects, create_user):
+    def test_search_objects_none_exists(self, create_articles, create_subjects, create_user):
         # if not in db
         user1 = create_user[1]
         article_list = [i for i in create_articles]
         subject1 = create_subjects[1]
 
         # search by title or a part of it
-        assert article_list[1] not in Article.searchByTitle("Hakuna matata")
+        assert article_list[1] not in Article.search_by_title("Hakuna matata")
 
         # search by user
-        assert article_list[0] not in Article.searchByUser(user1)
+        assert article_list[0] not in Article.search_by_user(user1)
 
         # search by subject
-        assert article_list[0] not in Article.searchBySubject(subject1)
+        assert article_list[0] not in Article.search_by_subject(subject1)
 
     @pytest.fixture
     @pytest.mark.django_db
@@ -136,44 +122,40 @@ class TestArticle:
         view.save()
         return view
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_filterByLikes(self, create_like):
+    def test_filter_by_likes(self, create_like):
         """
         Filter By Likes
-        filterByLikes() return look like => [(article object, int (numOfLikes)), ...]
+        filter_by_likes() return look like => [(article object, int (num_of_likes)), ...]
         """
-        filteredArticles = [i[1] for i in Article.filterByLikes()]
+        filtered_articles = [i[1] for i in Article.filter_by_likes()]
         """
-        filteredArticles look like => [ int, int, int, ....] => list of numOfViews of all article objects
+        filtered_articles look like => [ int, int, int, ....] => list of num_of_views of all article objects
         """
-        assert sorted(filteredArticles, reverse=True) == filteredArticles
+        assert sorted(filtered_articles, reverse=True) == filtered_articles
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_filterByViews(self, create_view):
+    def test_filter_by_views(self, create_view):
         """
         Filter By Views
-        filterByViews() return look view => [(article object, int (numOfViews)), ...]
+        filter_by_views() return look view => [(article object, int (num_of_views)), ...]
         """
-        filteredArticles = [i[1] for i in Article.filterByViews()]
+        filtered_articles = [i[1] for i in Article.filter_by_views()]
         """
-        filteredArticles look like => [ int, int, int, ....] => list of numOfViews of all article objects
+        filtered_articles look like => [ int, int, int, ....] => list of num_of_views of all article objects
         """
-        assert sorted(filteredArticles, reverse=True) == filteredArticles
+        assert sorted(filtered_articles, reverse=True) == filtered_articles
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_getNumOfLikes(self, create_articles, create_like, create_view):
+    def test_get_num_of_likes(self, create_articles, create_like, create_view):
         article = create_articles[0]
 
         assert Like.objects.filter(article_id=article).values(
-            'article_id').annotate(num_likes=Count('article_id'))[0]['num_likes'] == article.numOfLikes()
+            'article_id').annotate(num_likes=Count('article_id'))[0]['num_likes'] == article.num_of_likes()
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
-    def test_getNumOfViews(self, create_articles, create_like, create_view):
+    def test_get_num_of_views(self, create_articles, create_like, create_view):
         article = create_articles[0]
 
         assert View.objects.filter(article_id=article).values(
-            'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == article.numOfViews()
+            'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == article.num_of_views()

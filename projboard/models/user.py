@@ -58,31 +58,3 @@ class User(models.Model):
         except User.DoesNotExist:
             return False
         return True
-
-    # @staticmethod
-    # def get_user_articles_by_likes(nickname):
-    #    """
-    #    Method get nickname and return User object if exist, otherwise None
-    #    :param nickname: the nickname to search
-    #    :return: User object
-    #   """
-    #   # NOT FINISHED YET
-    #   try:
-    #       user = User.objects.get(nickname=nickname)
-    #   except User.DoesNotExist:
-    #      return None
-    #   return user
-
-    # @staticmethod
-    # def get_user_articles_by_views(nickname):
-    #   """
-    #   Method get nickname and return User object if exist, otherwise None
-    #   :param nickname: the nickname to search
-    #   :return: User object
-    #   """
-    #   # NOT FINISHED YET
-    #   try:
-    #       user = User.objects.get(nickname=nickname)
-    #   except User.DoesNotExist:
-    #       return None
-    #   return user

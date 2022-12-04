@@ -25,19 +25,19 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-    def PartOfTitle(self, Charlen):
+    def part_of_title(self, Charlen):
         """Returns a part of the title => useful for displaying article """
         if len(self.title) <= Charlen:
             return self.title
         return '%s...' % (self.title[:Charlen])
 
-    def PartOfContent(self, Charlen):
+    def part_of_content(self, Charlen):
         """Returns a part of the content => useful for displaying article """
         if len(self.content) <= Charlen:
             return self.content
         return '%s...' % (self.content[:Charlen])
 
-    def Edit(self, title=None, content=None, subject=None):
+    def edit(self, title=None, content=None, subject=None):
         """
         Updating an Article:
         note : arg subject should be an object that is saved in db
@@ -52,12 +52,12 @@ class Article(models.Model):
         self.save()
 
     @staticmethod
-    def searchByTitle(title):
+    def search_by_title(title):
         """ search of articles by title ( case insensitive ) """
         return Article.objects.filter(title__icontains=title).order_by('title')
 
     @staticmethod
-    def searchBySubject(subject):
+    def search_by_subject(subject):
         try:
             articles = Article.objects.filter(subject_id=subject).order_by('title')
         except ObjectDoesNotExist:
@@ -65,7 +65,7 @@ class Article(models.Model):
         return articles
 
     @staticmethod
-    def searchByUser(user):
+    def search_by_user(user):
         # Return all User articles
         try:
             articles = Article.objects.filter(user_id=user).order_by('date')
@@ -74,14 +74,14 @@ class Article(models.Model):
         return articles
 
     @staticmethod
-    def filterByLikes():
+    def filter_by_likes():
         x = [(Article.objects.get(id=i['article_id']), i['num_likes']) for i in Like.objects.values(
                 'article_id').annotate(num_likes=Count('article_id')).order_by('num_likes')]
         temp = [i[0] for i in x]
         x.extend([(i, 0) for i in Article.objects.all() if i not in temp])
         return x
 
-    def numOfLikes(self):
+    def num_of_likes(self):
         try:
             res = Like.objects.filter(article_id=self).values(
                 'article_id').annotate(num_likes=Count('article_id')).values('num_likes')[0]['num_likes']
@@ -91,14 +91,14 @@ class Article(models.Model):
         return res
 
     @staticmethod
-    def filterByViews():
+    def filter_by_views():
         x = [(Article.objects.get(id=i['article_id']), i['num_views']) for i in View.objects.values(
                 'article_id').annotate(num_views=Count('article_id')).order_by('num_views')]
 
         x.extend([(i, 0) for i in Article.objects.all() if i not in x])
         return x
 
-    def numOfViews(self):
+    def num_of_views(self):
         try:
             res = View.objects.filter(article_id=self).values(
                 'article_id').annotate(num_views=Count('article_id')).values('num_views')[0]['num_views']
