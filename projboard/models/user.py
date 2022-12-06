@@ -52,9 +52,8 @@ class User(models.Model):
         :param nickname: nickname to get the user
         :return:  TRUE/FALSE if the user deleted/not
         """
-        try:
-            user = User.get_user_by_nickname(nickname=nickname)
-            user.delete()
-        except User.DoesNotExist:
+        user = User.get_user_by_nickname(nickname=nickname)
+        if user is None:
             return False
+        user.delete()
         return True

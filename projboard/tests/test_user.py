@@ -12,6 +12,11 @@ NICKNAME_FAIL = "undefined_user"
 class TestUserModel:
 
     @pytest.fixture
+    def fake_user(self):
+        user = User(email=EMAIL, password=PASSWORD, name=NAME, nickname=NICKNAME_FAIL)
+        return user
+
+    @pytest.fixture
     def generate_user(self):
         user = User(email=EMAIL, password=PASSWORD, name=NAME, nickname=NICKNAME)
         user.save()
@@ -49,3 +54,8 @@ class TestUserModel:
         # Delete user by nickname
         generate_user.delete_user_by_nickname(generate_user.nickname)
         assert generate_user not in User.objects.all()
+
+    @pytest.mark.django_db
+    def test_delete_user_by_nickname_fail(self, fake_user):
+        # Delete user by nickname
+        assert fake_user.delete_user_by_nickname(fake_user.nickname) is False
