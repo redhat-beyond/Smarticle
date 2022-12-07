@@ -6,6 +6,7 @@ NAME = "RAWAD"
 NICKNAME = "USER3"
 EMAIL = "rawad@gmail.com"
 PASSWORD = "123456"
+# NICKNAME FAIL FOR FAIL TESTS
 NICKNAME_FAIL = "undefined_user"
 
 
@@ -43,9 +44,9 @@ class TestUserModel:
         assert generate_user.password == user.password
 
     @pytest.mark.django_db
-    def test_get_user_by_nickname_fail(self):
+    def test_get_user_by_nickname_fail(self, fake_user):
         # Tests that the user is not in the DB
-        user = User.get_user_by_nickname(NICKNAME_FAIL)
+        user = User.get_user_by_nickname(fake_user.nickname)
         assert user not in User.objects.all()
 
     # @pytest.mark.skip
@@ -57,5 +58,5 @@ class TestUserModel:
 
     @pytest.mark.django_db
     def test_delete_user_by_nickname_fail(self, fake_user):
-        # Delete user by nickname
+        # Delete user by nickname fail
         assert fake_user.delete_user_by_nickname(fake_user.nickname) is False
