@@ -1,5 +1,5 @@
 import pytest
-from projboard.models.article import Article, Like, View, Subject, User
+from projboard.models.article import Article, Like, View_Article, Subject, User
 from django.db.models import Count
 
 
@@ -118,9 +118,9 @@ class TestArticle:
     @pytest.fixture
     @pytest.mark.django_db
     def create_view(self, create_user, create_articles):
-        view = View(user_id=create_user[0], article_id=create_articles[0])
-        view.save()
-        return view
+        view_article = View_Article(user_id=create_user[0], article_id=create_articles[0])
+        view_article.save()
+        return view_article
 
     @pytest.mark.django_db
     def test_filter_by_likes(self, create_like):
@@ -157,5 +157,5 @@ class TestArticle:
     def test_get_num_of_views(self, create_articles, create_like, create_view):
         article = create_articles[0]
 
-        assert View.objects.filter(article_id=article).values(
+        assert View_Article.objects.filter(article_id=article).values(
             'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == article.num_of_views()

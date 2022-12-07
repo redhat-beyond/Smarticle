@@ -92,7 +92,7 @@ class Article(models.Model):
 
     @staticmethod
     def filter_by_views():
-        x = [(Article.objects.get(id=i['article_id']), i['num_views']) for i in View.objects.values(
+        x = [(Article.objects.get(id=i['article_id']), i['num_views']) for i in View_Article.objects.values(
                 'article_id').annotate(num_views=Count('article_id')).order_by('num_views')]
 
         x.extend([(i, 0) for i in Article.objects.all() if i not in x])
@@ -100,7 +100,7 @@ class Article(models.Model):
 
     def num_of_views(self):
         try:
-            res = View.objects.filter(article_id=self).values(
+            res = View_Article.objects.filter(article_id=self).values(
                 'article_id').annotate(num_views=Count('article_id')).values('num_views')[0]['num_views']
 
         except Exception:
@@ -170,9 +170,9 @@ class Like(models.Model):
         return f"{self.user_id.name} Liked {self.article_id.title}"
 
 
-class View(models.Model):
+class View_Article(models.Model):
     """
-    View model
+    View_Article model
     user_id- FK to User model
     article_id- FK to Article model
     """
@@ -186,16 +186,16 @@ class View(models.Model):
         :param article_id: The article to count the views on
         :return: int, the amount of views
         """
-        return View.objects.filter(article_id=article_id).count()
+        return View_Article.objects.filter(article_id=article_id).count()
 
     @staticmethod
-    def create_view(user_id, article_id, db):
+    def create_view_article(user_id, article_id, db):
         """
-        Method create a new view
+        Method create a new View_Article
         :param user_id: the user that viewed the article
         :param article_id: the article that the user viewed
         :return: the view that created
         """
-        view = View(user_id=user_id, article_id=article_id)
-        view.save()
-        return view
+        view_article = View_Article(user_id=user_id, article_id=article_id)
+        view_article.save()
+        return view_article
