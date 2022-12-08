@@ -22,10 +22,7 @@ class User(models.Model):
         :return: User object
         """
         user = User.objects.get(nickname=nickname)
-        if user not in User.objects.all():
-            raise User.DoesNotExist
-        else:
-            return user
+        return user
 
     @staticmethod
     def create_user(email, password, name, nickname):
