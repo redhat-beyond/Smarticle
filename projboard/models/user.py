@@ -56,4 +56,3 @@ class User(models.Model):
             raise User.DoesNotExist
         else:
             user.delete()
-

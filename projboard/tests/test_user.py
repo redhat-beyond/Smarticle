@@ -1,6 +1,5 @@
 import pytest
 from projboard.models.user import User
-from pytest import raises
 
 
 NAME = "RAWAD"
@@ -41,11 +40,10 @@ class TestUserModel:
     @pytest.mark.django_db
     def test_get_not_existed_user_by_nickname(self):
         try:
-             user = User.get_user_by_nickname(NOT_EXISTED_USER)
+            User.get_user_by_nickname(NOT_EXISTED_USER)
         # Assert true = when get_user_by_nickname raises an DoesNotExist exception
         except User.DoesNotExist:
             assert True
-
 
     @pytest.mark.django_db
     def test_delete_user_by_nickname(self, generate_user):
@@ -57,8 +55,7 @@ class TestUserModel:
     def test_delete_not_existed_user_by_nickname(self):
         # Delete user by nickname
         try:
-             User.delete_user_by_nickname(NOT_EXISTED_USER)
+            User.delete_user_by_nickname(NOT_EXISTED_USER)
         # Assert true = when delete_user_by_nickname raises an DoesNotExist exception
         except User.DoesNotExist:
             assert True
-
