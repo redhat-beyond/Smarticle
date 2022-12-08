@@ -1,21 +1,16 @@
 import pytest
 from projboard.models.user import User
+from pytest import raises
 
 
 NAME = "RAWAD"
 NICKNAME = "USER3"
 EMAIL = "rawad@gmail.com"
 PASSWORD = "123456"
-# NICKNAME FAIL FOR FAIL TESTS
-NICKNAME_FAIL = "undefined_user"
+NOT_EXISTED_USER = "undefined_user"
 
 
 class TestUserModel:
-
-    @pytest.fixture
-    def fake_user(self):
-        user = User(email=EMAIL, password=PASSWORD, name=NAME, nickname=NICKNAME_FAIL)
-        return user
 
     @pytest.fixture
     def generate_user(self):
@@ -44,12 +39,14 @@ class TestUserModel:
         assert generate_user.password == user.password
 
     @pytest.mark.django_db
-    def test_get_user_by_nickname_fail(self, fake_user):
-        # Tests that the user is not in the DB
-        user = User.get_user_by_nickname(fake_user.nickname)
-        assert user not in User.objects.all()
+    def test_get_not_existed_user_by_nickname(self):
+        try:
+             user = User.get_user_by_nickname(NOT_EXISTED_USER)
+        # Assert true = when get_user_by_nickname raises an DoesNotExist exception
+        except User.DoesNotExist:
+            assert True
 
-    # @pytest.mark.skip
+
     @pytest.mark.django_db
     def test_delete_user_by_nickname(self, generate_user):
         # Delete user by nickname
@@ -57,6 +54,11 @@ class TestUserModel:
         assert generate_user not in User.objects.all()
 
     @pytest.mark.django_db
-    def test_delete_user_by_nickname_fail(self, fake_user):
-        # Delete user by nickname fail
-        assert fake_user.delete_user_by_nickname(fake_user.nickname) is False
+    def test_delete_not_existed_user_by_nickname(self):
+        # Delete user by nickname
+        try:
+             User.delete_user_by_nickname(NOT_EXISTED_USER)
+        # Assert true = when delete_user_by_nickname raises an DoesNotExist exception
+        except User.DoesNotExist:
+            assert True
+
