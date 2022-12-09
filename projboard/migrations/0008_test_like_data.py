@@ -6,7 +6,7 @@ from django.db import migrations, transaction
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projboard', '0007_test_view_data'),
+        ('projboard', '0007_test_view_article_data'),
     ]
 
     def generate_like_data(apps, schema_editor):
