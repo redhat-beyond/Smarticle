@@ -39,11 +39,8 @@ class TestUserModel:
 
     @pytest.mark.django_db
     def test_get_not_existed_user_by_nickname(self):
-        try:
-            User.get_user_by_nickname(NOT_EXISTED_USER)
-        # Assert true = when get_user_by_nickname raises an DoesNotExist exception
-        except User.DoesNotExist:
-            assert True
+        with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
+            assert User.get_user_by_nickname(NOT_EXISTED_USER)
 
     @pytest.mark.django_db
     def test_delete_user_by_nickname(self, generate_user):
@@ -53,9 +50,6 @@ class TestUserModel:
 
     @pytest.mark.django_db
     def test_delete_not_existed_user_by_nickname(self):
-        # Delete user by nickname
-        try:
-            User.delete_user_by_nickname(NOT_EXISTED_USER)
-        # Assert true = when delete_user_by_nickname raises an DoesNotExist exception
-        except User.DoesNotExist:
-            assert True
+        # Delete not existed user
+        with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
+            assert User.delete_user_by_nickname(NOT_EXISTED_USER)
