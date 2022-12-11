@@ -6,7 +6,7 @@ NAME = "RAWAD"
 NICKNAME = "USER3"
 EMAIL = "rawad@gmail.com"
 PASSWORD = "123456"
-NICKNAME_FAIL = "undefined_user"
+NOT_EXISTED_USER = "undefined_user"
 
 
 class TestUserModel:
@@ -38,14 +38,18 @@ class TestUserModel:
         assert generate_user.password == user.password
 
     @pytest.mark.django_db
-    def test_get_user_by_nickname_fail(self):
-        # Tests that the user is not in the DB
-        user = User.get_user_by_nickname(NICKNAME_FAIL)
-        assert user not in User.objects.all()
+    def test_get_not_existed_user_by_nickname(self):
+        with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
+            assert User.get_user_by_nickname(NOT_EXISTED_USER)
 
-    # @pytest.mark.skip
     @pytest.mark.django_db
     def test_delete_user_by_nickname(self, generate_user):
         # Delete user by nickname
         generate_user.delete_user_by_nickname(generate_user.nickname)
         assert generate_user not in User.objects.all()
+
+    @pytest.mark.django_db
+    def test_delete_not_existed_user_by_nickname(self):
+        # Delete not existed user
+        with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
+            assert User.delete_user_by_nickname(NOT_EXISTED_USER)

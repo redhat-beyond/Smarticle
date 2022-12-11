@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class User(models.Model):
@@ -22,10 +21,7 @@ class User(models.Model):
         :param nickname: the nickname to search
         :return: User object
         """
-        try:
-            user = User.objects.get(nickname=nickname)
-        except ObjectDoesNotExist:
-            return None
+        user = User.objects.get(nickname=nickname)
         return user
 
     @staticmethod
@@ -52,9 +48,8 @@ class User(models.Model):
         :param nickname: nickname to get the user
         :return:  TRUE/FALSE if the user deleted/not
         """
-        try:
-            user = User.get_user_by_nickname(nickname=nickname)
+        user = User.get_user_by_nickname(nickname=nickname)
+        if user not in User.objects.all():
+            raise User.DoesNotExist
+        else:
             user.delete()
-        except User.DoesNotExist:
-            return False
-        return True
