@@ -1,6 +1,6 @@
 import pytest
 from projboard.models.user import User
-from projboard.models.article import Article, View
+from projboard.models.article import Article, View_Article
 from projboard.models.subject import Subject
 
 
@@ -36,15 +36,15 @@ class TestViewModel:
     @pytest.fixture
     @pytest.mark.django_db
     def create_view(self, create_user, create_articles):
-        view = View(user_id=create_user, article_id=create_articles)
-        view.save()
-        return view
+        view_article = View_Article(user_id=create_user, article_id=create_articles)
+        view_article.save()
+        return view_article
 
     @pytest.mark.django_db
     def test_create_view(self, create_view):
-        assert create_view in View.objects.all()
+        assert create_view in View_Article.objects.all()
 
     @pytest.mark.django_db
     def test_amount_of_views_article(self, create_view):
-        amount_views = View.amount_of_views_article(create_view.article_id)
-        assert len(View.objects.filter(article_id=create_view.article_id)) == amount_views
+        amount_views = View_Article.amount_of_views_article(create_view.article_id)
+        assert len(View_Article.objects.filter(article_id=create_view.article_id)) == amount_views

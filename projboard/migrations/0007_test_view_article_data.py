@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     ]
 
     def generate_view_data(apps, schema_editor):
-        from projboard.models.article import User, Article, View
+        from projboard.models.article import User, Article, View_Article
 
         user1 = User.get_user_by_nickname("User1")
         user2 = User.get_user_by_nickname("User2")
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
 
         with transaction.atomic():
             for user, article in test_data:
-                View(user_id=user, article_id=article).save()
+                View_Article(user_id=user, article_id=article).save()
 
     operations = [
         migrations.RunPython(generate_view_data),
