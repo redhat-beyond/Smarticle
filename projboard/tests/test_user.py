@@ -16,8 +16,8 @@ class TestUserModel:
 
     def test_create_users(self, users):
         # Test generarting users in DB
-        assert users[0] in User.objects.all()
-        assert users[1] in User.objects.all()
+        for i in range(len(users)):
+            assert users[i] in User.objects.all()
 
     def test_get_user_by_nickname(self, user):
         # Tests that the user is in the DB

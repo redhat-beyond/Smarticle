@@ -6,8 +6,7 @@ from django.db.models import Count
 @pytest.mark.django_db
 class TestArticle:
 
-    def test_part_functions(self, articles):
-        article = articles[0]
+    def test_part_functions(self, article):
         # testing @property functions => PartOf..()
         # whent title & content length is less than reality
         assert article.part_of_title(5) == article.title[:5] + '...'
@@ -17,8 +16,8 @@ class TestArticle:
         assert article.part_of_content(100) == article.content[:100]
 
     def test_object_saved_in_db(self, articles):
-        assert articles[0] in Article.objects.all()
-        assert articles[1] in Article.objects.all()
+        for i in range(len(articles)):
+            assert articles[i] in Article.objects.all()
 
     # using Edit function
     def test_edit_object(self, articles, subjects):

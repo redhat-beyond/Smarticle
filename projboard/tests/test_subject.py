@@ -9,8 +9,8 @@ NOT_EXIST = "not_exist"
 class TestSubjectModel:
 
     def test_create_subject(self, subjects):
-        assert subjects[0] in Subject.objects.all()
-        assert subjects[1] in Subject.objects.all()
+        for i in range(len(subjects)):
+            assert subjects[i] in Subject.objects.all()
 
     def test_delete_subject(self, subject):
         Subject.delete_subject(subject)
