@@ -14,12 +14,12 @@ class TestLikeModel:
         assert like.article_id.title == TITLE
         assert like.user_id.name == NAME
 
-    def test_delete_like(self, users, like):
+    def test_delete_like(self, user, like):
         result = Like.delete_like(like.user_id, like.article_id)
         assert result  # check if method delete_like success to delete the object
 
         assert like not in Like.objects.all()  # check that the object is not in the db
-        result = Like.delete_like(users[0], like.article_id)
+        result = Like.delete_like(user, like.article_id)
         assert not result  # check if method delete_like failed to delete the object
 
     def test_amount_of_likes_article(self, like):

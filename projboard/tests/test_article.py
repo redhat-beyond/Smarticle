@@ -92,14 +92,14 @@ class TestArticle:
         """
         assert sorted(filtered_articles, reverse=True) == filtered_articles
 
-    def test_get_num_of_likes(self, articles, like, view):
-        article = articles[0]
+    def test_get_num_of_likes(self, article, like, view):
+        my_article = article
 
-        assert Like.objects.filter(article_id=article).values(
-            'article_id').annotate(num_likes=Count('article_id'))[0]['num_likes'] == article.num_of_likes()
+        assert Like.objects.filter(article_id=my_article).values(
+            'article_id').annotate(num_likes=Count('article_id'))[0]['num_likes'] == my_article.num_of_likes()
 
-    def test_get_num_of_views(self, articles, like, view):
-        article = articles[0]
+    def test_get_num_of_views(self, article, like, view):
+        my_article = article
 
-        assert View_Article.objects.filter(article_id=article).values(
-            'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == article.num_of_views()
+        assert View_Article.objects.filter(article_id=my_article).values(
+            'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == my_article.num_of_views()

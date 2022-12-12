@@ -12,12 +12,12 @@ class TestSubjectModel:
         assert subjects[0] in Subject.objects.all()
         assert subjects[1] in Subject.objects.all()
 
-    def test_delete_subject(self, subjects):
-        Subject.delete_subject(subjects[0])
-        assert subjects[0] not in Subject.objects.all()
+    def test_delete_subject(self, subject):
+        Subject.delete_subject(subject)
+        assert subject not in Subject.objects.all()
 
-    def test_update_subject(self, subjects):
-        subject = Subject.rename_subject(subjects[0], ANIMALS)
+    def test_update_subject(self, subject):
+        subject = Subject.rename_subject(subject, ANIMALS)
         assert subject.name == ANIMALS
 
         subject = Subject.rename_subject(NOT_EXIST, ANIMALS)
