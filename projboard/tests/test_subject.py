@@ -8,21 +8,22 @@ NOT_EXIST = "not_exist"
 @pytest.mark.django_db
 class TestSubjectModel:
 
-    def test_create_subject(self, generate_subject):
-        assert generate_subject in Subject.objects.all()
+    def test_create_subject(self, subjects):
+        assert subjects[0] in Subject.objects.all()
+        assert subjects[1] in Subject.objects.all()
 
-    def test_delete_subject(self, generate_subject):
-        Subject.delete_subject(generate_subject)
-        assert generate_subject not in Subject.objects.all()
+    def test_delete_subject(self, subjects):
+        Subject.delete_subject(subjects[0])
+        assert subjects[0] not in Subject.objects.all()
 
-    def test_update_subject(self, generate_subject):
-        subject = Subject.rename_subject(generate_subject, ANIMALS)
+    def test_update_subject(self, subjects):
+        subject = Subject.rename_subject(subjects[0], ANIMALS)
         assert subject.name == ANIMALS
 
         subject = Subject.rename_subject(NOT_EXIST, ANIMALS)
         assert not subject
 
-    def test_get_list_subjects_names(self, generate_subjects):
+    def test_get_list_subjects_names(self, subjects):
         listSubject = Subject.get_list_subjects_names()
-        for i in generate_subjects:
+        for i in subjects:
             assert i.name in listSubject

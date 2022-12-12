@@ -47,17 +47,3 @@ def view(users, articles):
     view_article = View_Article(user_id=users[0], article_id=articles[0])
     view_article.save()
     return view_article
-
-
-@pytest.fixture
-def generate_subject():
-    subject = Subject.create_and_get_subject(name="yael")
-    subject.save()
-    return subject
-
-
-@pytest.fixture
-def generate_subjects(generate_subject):
-    subject = Subject.create_and_get_subject(name="gal")
-    subject.save()
-    return [subject, generate_subject]
