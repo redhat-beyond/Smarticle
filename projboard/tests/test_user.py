@@ -1,9 +1,6 @@
 import pytest
 from projboard.models.user import User
-NAME = "my_username"
 NICKNAME = "my_nickname"
-EMAIL = "my_email@gmail.com"
-PASSWORD = "my_password"
 NOT_EXISTED_USER = "undefined_user"
 
 
@@ -20,12 +17,12 @@ class TestUserModel:
             assert users[i] in User.objects.all()
 
     def test_get_user_by_nickname(self, user):
-        # Tests that the user is in the DB
-        user = User.get_user_by_nickname(NICKNAME)
-        assert user.name == user.name
-        assert user.nickname == user.nickname
-        assert user.email == user.email
-        assert user.password == user.password
+        # Tests that the user we get from get_user_by_nickname is the same we generated
+        get_user = User.get_user_by_nickname(NICKNAME)
+        assert user.name == get_user.name
+        assert user.nickname == get_user.nickname
+        assert user.email == get_user.email
+        assert user.password == get_user.password
 
     def test_get_not_existed_user_by_nickname(self):
         with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
