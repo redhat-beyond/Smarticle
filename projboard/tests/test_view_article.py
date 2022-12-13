@@ -10,4 +10,4 @@ class TestViewModel:
 
     def test_amount_of_views_article(self, view):
         amount_views = View_Article.amount_of_views_article(view.article_id)
-        assert len(View_Article.objects.filter(article_id=view.article_id)) == amount_views
+        assert View_Article.objects.filter(article_id=view.article_id).count() == amount_views

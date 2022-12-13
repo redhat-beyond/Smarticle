@@ -27,4 +27,4 @@ class TestLikeModel:
         assert len(Like.objects.filter(article_id=like.article_id)) == amount_likes
 
         Like.delete_like(like.user_id, like.article_id)
-        assert len(Like.objects.filter(article_id=like.article_id)) != amount_likes
+        assert Like.objects.filter(article_id=like.article_id).count() != amount_likes
