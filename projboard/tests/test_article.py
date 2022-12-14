@@ -1,6 +1,12 @@
 import pytest
 from projboard.models.article import Article, Like, View_Article, Subject
 from django.db.models import Count
+from enum import Enum
+
+
+# Enum to deal with not existed objects
+class DataType(Enum):
+    EXIST, NON_EXIST = range(0, 2)
 
 
 @pytest.mark.django_db
@@ -20,16 +26,9 @@ class TestArticle:
             assert articles[i] in Article.objects.all()
 
     # using Edit function
-    def test_edit_object(self, articles, subjects):
-
-        article = articles[0]
+    def test_edit_article(self, article, subject):
         title = "New Title"
         content = "New Content"
-        subject = subjects[1]
-        old_subject = subjects[0]
-
-        assert article.subject_id == old_subject
-
         article.edit(title, content, subject)
 
         assert article.title == title
@@ -40,34 +39,28 @@ class TestArticle:
         article.edit(subject=unsaved_subject)
         assert article.subject_id == subject
 
-    def test_search_objects(self, articles, subjects, users):
-        user1 = users[1]
+    def test_search_by_object(self, articles, subjects, users):
+        # Assign articles for user
         article_list = [i for i in articles]
-        subject1 = subjects[1]
+        for i in range(len(article_list)):
+            assert article_list[i] in Article.search_by_title("Test")
+            assert article_list[i] in Article.search_by_user(users[i])
+            assert article_list[i] in Article.search_by_subject(subjects[i])
 
-        # search by title or a part of it
-        assert article_list[1] in Article.search_by_title("Test")
-
-        # search by user
-        assert article_list[1] in Article.search_by_user(user1)
-
-        # search by subject
-        assert article_list[1] in Article.search_by_subject(subject1)
-
-    def test_search_objects_none_exists(self, articles, subjects, users):
+    def test_search_non_exist_keys(self, articles, subjects, users):
         # if not in db
-        user1 = users[1]
+        not_existed_user = users[DataType.NON_EXIST.value]
         article_list = [i for i in articles]
-        subject1 = subjects[1]
+        not_existed_subject = subjects[DataType.NON_EXIST.value]
 
         # search by title or a part of it
         assert article_list[1] not in Article.search_by_title("Hakuna matata")
 
         # search by user
-        assert article_list[0] not in Article.search_by_user(user1)
+        assert article_list[0] not in Article.search_by_user(not_existed_user)
 
         # search by subject
-        assert article_list[0] not in Article.search_by_subject(subject1)
+        assert article_list[0] not in Article.search_by_subject(not_existed_subject)
 
     def test_filter_by_likes(self, like):
         """
