@@ -1,54 +1,38 @@
 import pytest
 from projboard.models.user import User
-
-
-NAME = "RAWAD"
-NICKNAME = "USER3"
-EMAIL = "rawad@gmail.com"
-PASSWORD = "123456"
+NICKNAME = "my_nickname"
 NOT_EXISTED_USER = "undefined_user"
 
 
+@pytest.mark.django_db
 class TestUserModel:
 
-    @pytest.fixture
-    def generate_user(self):
-        user = User(email=EMAIL, password=PASSWORD, name=NAME, nickname=NICKNAME)
-        user.save()
-        return user
-
-    @pytest.mark.django_db
-    def test_generate_user(self, generate_user):
+    def test_create_user(self, user):
         # Test generarting new user in DB
-        assert generate_user in User.objects.all()
-
-    @pytest.mark.django_db
-    def test_create_user(self):
-        # Testing if generate_user
-        user = User.create_user(EMAIL, PASSWORD, NAME, NICKNAME)
         assert user in User.objects.all()
 
-    @pytest.mark.django_db
-    def test_get_user_by_nickname(self, generate_user):
-        # Tests that the user is in the DB
-        user = User.get_user_by_nickname(NICKNAME)
-        assert generate_user.name == user.name
-        assert generate_user.nickname == user.nickname
-        assert generate_user.email == user.email
-        assert generate_user.password == user.password
+    def test_create_users(self, users):
+        # Test generarting users in DB
+        for i in range(len(users)):
+            assert users[i] in User.objects.all()
 
-    @pytest.mark.django_db
+    def test_get_user_by_nickname(self, user):
+        # Tests that the user we get from get_user_by_nickname is the same we generated
+        get_user = User.get_user_by_nickname(NICKNAME)
+        assert user.name == get_user.name
+        assert user.nickname == get_user.nickname
+        assert user.email == get_user.email
+        assert user.password == get_user.password
+
     def test_get_not_existed_user_by_nickname(self):
         with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
             assert User.get_user_by_nickname(NOT_EXISTED_USER)
 
-    @pytest.mark.django_db
-    def test_delete_user_by_nickname(self, generate_user):
+    def test_delete_user_by_nickname(self, user):
         # Delete user by nickname
-        generate_user.delete_user_by_nickname(generate_user.nickname)
-        assert generate_user not in User.objects.all()
+        user.delete_user_by_nickname(user.nickname)
+        assert user not in User.objects.all()
 
-    @pytest.mark.django_db
     def test_delete_not_existed_user_by_nickname(self):
         # Delete not existed user
         with pytest.raises(User.DoesNotExist, match="User matching query does not exist."):
