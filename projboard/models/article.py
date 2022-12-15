@@ -81,6 +81,7 @@ class Article(models.Model):
         x.extend([(i, 0) for i in Article.objects.all() if i not in temp])
         return x
 
+    @property
     def num_of_likes(self):
         try:
             res = Like.objects.filter(article_id=self).values(
@@ -98,6 +99,7 @@ class Article(models.Model):
         x.extend([(i, 0) for i in Article.objects.all() if i not in x])
         return x
 
+    @property
     def num_of_views(self):
         try:
             res = View_Article.objects.filter(article_id=self).values(

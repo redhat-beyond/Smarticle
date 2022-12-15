@@ -19,5 +19,6 @@ from projboard import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.board, name='board')
+    path('', views.board, name='board'),
+    path('search/', views.search, name='search')
 ]

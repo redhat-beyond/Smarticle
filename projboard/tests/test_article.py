@@ -88,10 +88,10 @@ class TestArticle:
         my_article = article
 
         assert Like.objects.filter(article_id=my_article).values(
-            'article_id').annotate(num_likes=Count('article_id'))[0]['num_likes'] == my_article.num_of_likes()
+            'article_id').annotate(num_likes=Count('article_id'))[0]['num_likes'] == my_article.num_of_likes
 
     def test_get_num_of_views(self, article, like, view):
         my_article = article
 
         assert View_Article.objects.filter(article_id=my_article).values(
-            'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == my_article.num_of_views()
+            'article_id').annotate(num_views=Count('article_id'))[0]['num_views'] == my_article.num_of_views
