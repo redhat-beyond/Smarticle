@@ -54,13 +54,13 @@ class TestArticle:
         not_existed_subject = subjects[DataType.NON_EXIST.value]
 
         # search by title or a part of it
-        assert article_list[1] not in Article.search_by_title("Hakuna matata")
+        assert article_list[DataType.EXIST.value] not in Article.search_by_title("Hakuna matata")
 
         # search by user
-        assert article_list[0] not in Article.search_by_user(not_existed_user)
+        assert article_list[DataType.EXIST.value] not in Article.search_by_user(not_existed_user)
 
         # search by subject
-        assert article_list[0] not in Article.search_by_subject(not_existed_subject)
+        assert article_list[DataType.EXIST.value] not in Article.search_by_subject(not_existed_subject)
 
     def test_filter_by_likes(self, like):
         """
