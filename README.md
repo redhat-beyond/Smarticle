@@ -1,12 +1,14 @@
+
+<p align="center">
+  <img alt= "Smarticle" src="https://github.com/redhat-beyond/Smarticle/blob/main/documentations/logo/Smarticle_logo_prev_ui.png"     width="450">
+</p>
+
 # Smarticle
 
 Welcome to our group social project.
 'Smarticle' is an open-source platform that is meant to be used by everyone.
 The platform is meant to share knowledge with users around the world,
 help acquire skills and open up additional lines of thought.
-
-<img alt= "Smarticle" src="/documentations/logo/Smarticle_logo_earased_background.png" width="450">
-
 
 # Team members
 * [shalev Roimi](https://github.com/Shalevro2)
