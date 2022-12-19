@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img alt= "Smarticle" src="https://github.com/redhat-beyond/Smarticle/blob/main/documentations/logo/Smarticle_logo_prev_ui.png"     width="450">
+</p>
+
 # Smarticle
 
 Welcome to our group social project.
