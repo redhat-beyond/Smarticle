@@ -46,3 +46,26 @@ def test_valued_searchpage_results(client, articles):
 def test_empty_searchpage_results(client):
     response = client.post('/search/', {'title': ''})
     assert response.context[MESSAGE] == EMPTY_TITLE_MESSAGE
+
+
+@pytest.mark.django_db
+def test_create_article_get(client):
+    response = client.get('/create_article/')
+    assert response.status_code == 200
+
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'article/article.html' in template_names
+
+
+@pytest.mark.django_db
+def test_create_article_post(client, article, django_capture_on_commit_callbacks):
+    with django_capture_on_commit_callbacks(execute=True):
+        response = client.post(
+            '/create_article/', {
+                'title': article.title + ' form',
+                'subject_id': 1,
+                'user_id': 1,
+                'content': article.content
+            })
+
+    assert response.status_code == 200
