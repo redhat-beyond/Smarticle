@@ -19,6 +19,7 @@ from projboard import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.board, name='board'),
+    path('', views.home_page, name='homepage'),
+    path('about/', views.about_page, name='about'),
     path('create_article/', views.create_article, name='create_article')
 ]

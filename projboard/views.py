@@ -3,8 +3,12 @@ from .models.user import User
 from .forms import CreateArticleForm
 
 
-def board(request):
-    return render(request, 'projboard/board.html', {})
+def home_page(request):
+    return render(request, 'landing/homepage.html', {})
+
+
+def about_page(request):
+    return render(request, 'about/about.html', {})
 
 
 def create_article(request):
