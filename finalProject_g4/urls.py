@@ -19,9 +19,10 @@ from projboard import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.board, name='board'),
+    path('', views.home_page, name='homepage'),
     path('search/', views.search, name='search'),
-    path('create_article/', views.create_article, name='create_article')
+    path('create_article/', views.create_article, name='create_article'),
+    path('about/', views.about_page, name='aboutpage')
 ]
 
 handler404 = views.error_404
