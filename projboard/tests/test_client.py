@@ -13,6 +13,8 @@ EMPTY_TITLE_MESSAGE = "please enter a title!"
 def test_homepage(client):
     response = client.get("/")
     assert response.status_code == 200
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'landing/homepage.html' in template_names
 
 
 def test_get_searchpage(client):
