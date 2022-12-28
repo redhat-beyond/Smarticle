@@ -99,5 +99,13 @@ def test_error_404(client):
     assert '404.html' in template_names
     assert response.status_code == 404
 def test_aboutpage(client):
+    # Send a GET request to the page
     response = client.get("/about/")
+    # Verify that the response status code is 200 (indicating a successful request)
     assert response.status_code == 200
+    # Verify that the page contains the expected elements and content
+    assert b"<h1>Smarticle</h1>" in response.content
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that 'about/about.html' is in the set.
+    assert 'about/about.html' in template_names
