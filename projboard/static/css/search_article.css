@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Zilla+Slab:wght@400;700&display=swap');
+
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 200,
+    'opsz' 24
+}
+
+main {
+    padding: 2em 1em;
+}
+body {
+    background-image: linear-gradient(to bottom right, #FFEFD6  ,#eec98d,#e8d890);
+    font-family: 'Zilla Slab', serif;
+}
+h4 {
+    
+    color: #0E5E6F;
+}
+h2  {
+    font-family: 'Anton', sans-serif; color: #0E5E6F;
+}
+p {
+    color: #3A8891;
+}
+input{
+    
+    border:none;
+    flex-grow: 1;
+}
+hr {
+    border: 0; 
+  height: 3px; 
+  background-image: -webkit-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+  background-image: -o-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+}
+button {
+            
+            height: min-content;
+            width: max-content;
+            border: #000000 2px solid;
+            border-radius:0.35em;
+            box-sizing: border-box;
+            text-decoration:none;
+            font-weight:300;
+            color: #000000;
+            text-align:center;
+            transition: all 0.2s;
+            background-color: #ffffff;
+            justify-self: end;
+}
+button:hover{
+            color:#0E5E6F;
+            background-color:  #e7c863;
+}
+@media all and (max-width:30em){
+            button1{
+                display:block;
+                margin:0.4em auto;
+}}
+.wrap{
+    max-width: fit-content;
+    border: #5f5f5ffa 1px groove;
+    border-radius: 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+}
+.search_button{
+    margin-bottom: 2em;
+    min-height: 10vh;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+@media all and (max-width:620px){
+    .search_button{
+        flex-direction: column;
+
+    }
+    
+}
+
+#searchedArticles{
+    min-width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+#searchedArticles > * {
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+}
+.nickname{
+    font-weight: 700;
+}
+.footer {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+}
+.footer > *{
+    margin : 0px 0px 0px;
+}
+#searchsection{
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 50vh;
+}
+#searchsection:first-of-type(h2){
+    width: fit-content;
+}
+.NotFound{
+    margin-top: 1rem;
+    color: #b32c2c;
+    width: fit-content;
+}
+span{
+    color: #000000;
+    margin-right: 3px;
+}
