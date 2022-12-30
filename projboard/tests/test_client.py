@@ -58,7 +58,14 @@ def test_create_article_get(client):
 
 
 @pytest.mark.django_db
-def test_create_article_post(client, article, django_capture_on_commit_callbacks):
+def test_fill_article_post(client, article, django_capture_on_commit_callbacks):
+    response = client.get('/create_article/')
+    assert response.status_code == 200
+
+    # Page before the post
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'article/article.html' in template_names
+
     with django_capture_on_commit_callbacks(execute=True):
         response = client.post(
             '/create_article/', {
@@ -68,4 +75,26 @@ def test_create_article_post(client, article, django_capture_on_commit_callbacks
                 'content': article.content
             })
 
+    # Page after the post
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # TODO change board.html to my_article.html
+    assert 'projboard/board.html' in template_names
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_fill_article_delete(client):
+    response = client.delete('/create_article/')
+    assert response.status_code == 404
+
+    # Page before the post
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert '404.html' in template_names
+
+
+def test_error_404(client):
+    response = client.delete('/NOT_EXSITS_FAKE_ROUTE/')
+
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert '404.html' in template_names
+    assert response.status_code == 404

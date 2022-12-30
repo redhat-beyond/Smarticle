@@ -23,3 +23,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('create_article/', views.create_article, name='create_article')
 ]
+
+handler404 = views.error_404
