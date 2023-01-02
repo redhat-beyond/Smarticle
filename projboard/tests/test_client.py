@@ -14,6 +14,8 @@ def test_homepage(client):
     response = client.get("/")
     assert response.status_code == 200
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # CHECK IF THE ARTICLES CONTAINTS THE CORRECT NUMBER OF ARTICLES
+    assert len(response.context['articles']) == Article.objects.count()
     assert 'landing/homepage.html' in template_names
 
 

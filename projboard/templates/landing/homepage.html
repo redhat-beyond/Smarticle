@@ -1,8 +1,112 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <head>
-  <title>Homepage</title>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'css/homepage.css' %}"
+  />
 </head>
-<body>
-  <p>TO DO LATER</p>
-</body>
-{% endblock content %}
+<div class="container">
+  <div class="content-area group">
+    <h1>
+      Discover
+      <!-- Green highlight effect -->
+      <span class="highlight">stories</span>
+      <br />
+      <span class="highlight">thinking</span>
+      <br />
+      and
+      <span class="highlight">expertise </span>
+      <br />
+      from writers on any topic.
+    </h1>
+  </div>
+</div>
+
+<!--SECTION ONE-->
+<section class="section" id="section--1">
+  <div class="section__title">
+    <h2 class="section__description">Features</h2>
+  </div>
+
+  <div class="features">
+    <img
+      src="{% static 'images/community.png' %}"
+      data-src="images/community.png"
+      alt="Community"
+      class="features__img"
+    />
+    <div class="features__feature">
+      <div class="features__icon"></div>
+      <h5 class="features__header">100% True stories</h5>
+      <p>
+        Smarticle have been made for people all around the world to post daily
+        stories about their real lives.
+      </p>
+    </div>
+
+    <div class="features__feature">
+      <div class="features__icon"></div>
+      <h5 class="features__header">Watch your article grow</h5>
+      <p>
+        Smarticle introduces great features to help our clients grow and shine.
+      </p>
+    </div>
+    <img
+      src="{% static 'images/grow-community.png' %}"
+      data-src="images/grow-community.png"
+      alt="Growing Community"
+      class="features__img"
+    />
+
+    <img
+      src="{% static 'images/join-us.png' %}"
+      data-src="images/join-us.png"
+      alt="Join Us"
+      class="features__img"
+    />
+    <div class="features__feature">
+      <div class="features__icon"></div>
+      <h5 class="features__header">Sign up for free</h5>
+      <button class="btn--text btn--scroll-to">Join us &reg;</button>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <!--SECTION ONE-->
+  <section class="section" id="section--2">
+    <!-- LEFT SIDE SECTION-->
+    <h2 class="section__description">Articles</h2>
+    <div class="articles__content left-area">
+      <!-- I NEED TO CHANGE THIS TEMPLATE VIEW-->
+      <hr />
+      <article>
+        {% for article in articles %}
+        <header>
+          <p class="nickname">
+            &#128100; {{article.user_id.nickname}} | &#8987; {{article.date}}
+          </p>
+        </header>
+        <h2>{{article.title | truncatechars:30}}</h2>
+        <p>{{article.content | truncatechars:70}}</p>
+        <p>
+          <strong>Category</strong>: {% if article.subject_id == null %} Unknown
+          {% else %} {{article.subject_id}} {% endif %}
+        </p>
+        <button class="btn" role="submit">View Blog</button>
+      </article>
+      <hr />
+      {% endfor %}
+    </div>
+    <!-- RIGHT SIDE SECTION-->
+    <div class="articles__content right-area">
+      <img
+        src="{% static 'images/animated.gif' %}"
+        data-src="images/animated.png"
+        alt="Social media GIF"
+        class="features__img"
+      />
+    </div>
+  </section>
+</div>
+{% endblock %}
