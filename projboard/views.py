@@ -7,10 +7,6 @@ from django.http import HttpResponse
 from django.template import loader
 
 
-def board(request):
-    return render(request, 'projboard/board.html', {})
-
-
 def error_404(request, exception):
     template = loader.get_template('404.html')
     return HttpResponse(content=template.render(), content_type='text/html; charset=utf-8', status=404)
@@ -43,7 +39,7 @@ def create_article(request):
         if form.is_valid():
             form.save()
             # TODO when we end to create the "my articles" page, change the redirect
-            return render(request, 'projboard/board.html', {'articles': Article.search_by_user(user)})
+            return render(request, 'landing/homepage.html', {'articles': Article.search_by_user(user)})
     elif request.method == "DELETE":
         raise Http404()
     else:
@@ -53,3 +49,11 @@ def create_article(request):
         "user": user,
         'form': form,
     })
+
+
+def home_page(request):
+    return render(request, 'landing/homepage.html', {})
+
+
+def about_page(request):
+    return render(request, 'about/about.html', {})

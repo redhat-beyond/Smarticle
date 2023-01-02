@@ -13,6 +13,8 @@ EMPTY_TITLE_MESSAGE = "please enter a title!"
 def test_homepage(client):
     response = client.get("/")
     assert response.status_code == 200
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'landing/homepage.html' in template_names
 
 
 def test_get_searchpage(client):
@@ -78,7 +80,7 @@ def test_fill_article_post(client, article, django_capture_on_commit_callbacks):
     # Page after the post
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     # TODO change board.html to my_article.html
-    assert 'projboard/board.html' in template_names
+    assert 'landing/homepage.html' in template_names
     assert response.status_code == 200
 
 
@@ -98,3 +100,14 @@ def test_error_404(client):
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     assert '404.html' in template_names
     assert response.status_code == 404
+
+
+def test_aboutpage(client):
+    # Send a GET request to the page
+    response = client.get("/about/")
+    # Verify that the response status code is 200 (indicating a successful request)
+    assert response.status_code == 200
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that 'about/about.html' is in the set.
+    assert 'about/about.html' in template_names
