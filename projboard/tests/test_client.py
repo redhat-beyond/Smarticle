@@ -100,6 +100,8 @@ def test_error_404(client):
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     assert '404.html' in template_names
     assert response.status_code == 404
+
+
 def test_aboutpage(client):
     # Send a GET request to the page
     response = client.get("/about/")
