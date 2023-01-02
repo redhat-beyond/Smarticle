@@ -34,3 +34,36 @@ The college also has a campus in Yeruham and a number of
 partnership agreements with other institutions in Israel and abroad.
 Tel-Hai college is accredited by the Council for Higher Education in Israel and is
 recognized as a leading institution of higher education in the country."""
+
+SOCIAL_MEDIA_TITLE = """The Impact of Social Media on Youth Mental Health:
+A Comprehensive Review of the Literature and Recommendations for Future Research"""
+
+SOCIAL_MEDIA = """Provide an overview of the topic and explain why it is important
+to study the impact of social media on youth mental health.
+Literature review:
+
+Summarize the findings from previous research on the topic.
+Discuss the various ways in which social media use may affect mental health in young people,
+including both positive and negative impacts.
+Explore the potential moderating factors that may influence the relationship
+between social media use and mental health outcomes.
+Methodology:
+
+Describe the research design and methods used to conduct the review, including the
+databases and search terms used to locate relevant studies and the inclusion/exclusion criteria applied.
+Provide details on the quality assessment and data synthesis methods used.
+Results:
+
+Present the main findings from the review, including any patterns or trends that
+emerged across the studies.
+Discuss any significant differences or inconsistencies in the results of the included studies.
+Conclusion:
+
+Summarize the overall evidence on the impact of social media on youth mental health.
+Discuss the implications of the findings for future research and practice.
+Offer recommendations for future research on this topic.
+References:
+
+Provide a list of the studies that were included in the review, along with any additional
+relevant references cited in the article.
+"""

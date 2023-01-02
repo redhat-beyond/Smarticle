@@ -27,6 +27,8 @@ class Migration(migrations.Migration):
             [user2, 'Turing Machine', subject3, articles_content.TURING],
             [user1, 'Red Hat', subject3, articles_content.RED_HAT],
             [user1, 'Tel Hai college', subject4, articles_content.TEL_HAI],
+            [user1, articles_content.SOCIAL_MEDIA_TITLE, subject4, articles_content.SOCIAL_MEDIA],
+
         ]
         with transaction.atomic():
             for a in test_data:
