@@ -1,9 +1,19 @@
-from django.shortcuts import render
 from .models.article import Article
+from django.shortcuts import render
+from .models.user import User
+from .forms import CreateArticleForm
+from django.http import Http404
+from django.http import HttpResponse
+from django.template import loader
 
 
 def board(request):
     return render(request, 'projboard/board.html', {})
+
+
+def error_404(request, exception):
+    template = loader.get_template('404.html')
+    return HttpResponse(content=template.render(), content_type='text/html; charset=utf-8', status=404)
 
 
 def search(request):
@@ -22,3 +32,24 @@ def search(request):
                                                                            'num_articles': num_articles,
                                                                            'search_title': search_title,
                                                                            'message': message})
+
+
+def create_article(request):
+    # TODO when we end to create authentication and authorization, change "User1"
+    user = User.get_user_by_nickname("User1")
+
+    if request.method == "POST":
+        form = CreateArticleForm(request.POST, initial={'user_id': user})
+        if form.is_valid():
+            form.save()
+            # TODO when we end to create the "my articles" page, change the redirect
+            return render(request, 'projboard/board.html', {'articles': Article.search_by_user(user)})
+    elif request.method == "DELETE":
+        raise Http404()
+    else:
+        form = CreateArticleForm(initial={'user_id': user})
+
+    return render(request, 'article/article.html', {
+        "user": user,
+        'form': form,
+    })

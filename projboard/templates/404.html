@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/404.css' %}">
+</head>
+
+<div class="error_container">
+    <div class="error_block">
+        <h1>404</h1>
+        <h3>Oops... Page Not Found!</h3>
+        <p>Try using the button below to go to main page of the site</p>
+        <a href="/">
+            <input type="button" class="error_btn" value="BACK TO MAIN PAGE">
+        </a>
+    </div>
+</div>
+
+{% endblock %}
