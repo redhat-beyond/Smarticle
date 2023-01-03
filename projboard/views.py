@@ -25,9 +25,9 @@ def search(request):
 
     num_articles = len(articles)
     return render(request, 'searchArticle/search_article.html', {'articles': articles,
-                                                                           'num_articles': num_articles,
-                                                                           'search_title': search_title,
-                                                                           'message': message})
+                                                                 'num_articles': num_articles,
+                                                                 'search_title': search_title,
+                                                                 'message': message})
 
 
 def create_article(request):
