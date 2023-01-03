@@ -24,7 +24,7 @@ def search(request):
             message = "please enter a title!"
 
     num_articles = len(articles)
-    return render(request, 'projboard/searchArticle/search_article.html', {'articles': articles,
+    return render(request, 'searchArticle/search_article.html', {'articles': articles,
                                                                            'num_articles': num_articles,
                                                                            'search_title': search_title,
                                                                            'message': message})
