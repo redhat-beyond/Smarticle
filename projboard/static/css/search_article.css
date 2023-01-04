@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Zilla+Slab:wght@400;700&display=swap');
-
-
 .material-symbols-outlined {
     font-variation-settings:
     'FILL' 0,
@@ -8,60 +5,44 @@
     'GRAD' 200,
     'opsz' 24
 }
-
 main {
     padding: 2em 1em;
 }
-body {
-    background-image: linear-gradient(to bottom right, #FFEFD6  ,#eec98d,#e8d890);
-    font-family: 'Zilla Slab', serif;
-}
-h4 {
-    
-    color: #0E5E6F;
-}
-h2  {
-    font-family: 'Anton', sans-serif; color: #0E5E6F;
-}
-p {
-    color: #3A8891;
-}
-input{
-    
+input{ 
     border:none;
     flex-grow: 1;
 }
 hr {
     border: 0; 
-  height: 3px; 
-  background-image: -webkit-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
-  background-image: -moz-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
-  background-image: -ms-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
-  background-image: -o-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+    height: 3px; 
+    background-image: -webkit-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+    background-image: -moz-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+    background-image: -ms-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+    background-image: -o-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
 }
 button {
             
-            height: min-content;
-            width: max-content;
-            border: #000000 2px solid;
-            border-radius:0.35em;
-            box-sizing: border-box;
-            text-decoration:none;
-            font-weight:300;
-            color: #000000;
-            text-align:center;
-            transition: all 0.2s;
-            background-color: #ffffff;
-            justify-self: end;
+    height: min-content;
+    width: max-content;
+    border: #000000 2px solid;
+    border-radius:0.35em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-weight:300;
+    color: #000000;
+    text-align:center;
+    transition: all 0.2s;
+    background-color: #ffffff;
+    justify-self: end;
 }
 button:hover{
-            color:#0E5E6F;
-            background-color:  #e7c863;
+    color:#0E5E6F;
+    background-color:  #e7c863;
 }
 @media all and (max-width:30em){
-            button1{
-                display:block;
-                margin:0.4em auto;
+    button1{
+        display:block;
+        margin:0.4em auto;
 }}
 .wrap{
     max-width: fit-content;
@@ -82,9 +63,7 @@ button:hover{
 @media all and (max-width:620px){
     .search_button{
         flex-direction: column;
-
     }
-    
 }
 
 #searchedArticles{
@@ -97,7 +76,6 @@ button:hover{
     flex-wrap: wrap;
     flex-grow: 1;
 }
-
 section{
     display: flex;
     justify-content: center;
