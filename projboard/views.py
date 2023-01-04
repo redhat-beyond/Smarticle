@@ -51,6 +51,21 @@ def create_article(request):
     })
 
 
+def my_articles(request):
+    # TODO when we end to create authentication and authorization, change "User1"
+    user = User.get_user_by_nickname("User1")
+    my_articles = Article.search_by_user(user)
+
+    if request.method == "GET":
+        return render(request, 'myArticles/my_articles.html', {
+            'my_articles':my_articles})
+    else:
+        raise Http404()
+
+    return render(request, 'myArticles/my_articles.html', {
+        'my_articles':my_articles})
+
+
 def home_page(request):
     return render(request, 'landing/homepage.html', {})
 
