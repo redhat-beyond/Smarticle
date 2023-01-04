@@ -1,4 +1,4 @@
-from .models.article import Article
+from .models.article import Article, View_Article, Like
 from django.shortcuts import render, redirect
 from .models.user import User
 from .models.subject import Subject
@@ -15,8 +15,14 @@ def error_404(request, exception):
     return HttpResponse(content=template.render(), content_type='text/html; charset=utf-8', status=404)
 
 
-def search(request):
-    search_input = ''
+def search(request, user_nickname):
+
+    try:
+        user = User.get_user_by_nickname(user_nickname)
+    except ObjectDoesNotExist:
+        raise Http404()
+
+    search_title = ''
     articles = []
     message = ''
     search_method = 'title'
@@ -47,6 +53,7 @@ def search(request):
 
     num_articles = len(articles)
     return render(request, 'searchArticle/search_article.html', {'articles': articles,
+                                                                 'user': user,
                                                                  'num_articles': num_articles,
                                                                  'search_input': search_input,
                                                                  'search_method': search_method,
@@ -117,3 +124,36 @@ def sign_up(request):
             messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request, 'signup/signup.html', {'register_form': form, 'registration_attempt': registration_attempt})
+
+
+def show_article(request, user_nickname, article_pk):
+
+    try:
+        user = User.get_user_by_nickname(user_nickname)
+        article = Article.objects.get(pk=article_pk)
+        liked = True
+        try:
+            Like.objects.get(user_id=user.id, article_id=article_pk)
+        except ObjectDoesNotExist:
+            liked = False
+
+        if request.method == 'POST':
+            like_method = request.POST['like_method']
+            if like_method == 'Add':
+                Like.create_like(user_id=user, article_id=article)
+                liked = True
+            else:
+                Like.delete_like(user_id=user.id, article_id=article_pk)
+                liked = False
+
+        else:
+            try:
+                View_Article.objects.get(user_id=user.id, article_id=article_pk)
+            except ObjectDoesNotExist:
+                new_view = View_Article(user_id=user, article_id=article)
+                new_view.save()
+
+        return render(request, 'show/read_article.html', {'article': article, 'user': user, 'liked': liked})
+
+    except ObjectDoesNotExist:
+        raise Http404()

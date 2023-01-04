@@ -38,14 +38,34 @@ def test_homepage(client, articles_num):
     assert 'landing/homepage.html' in template_names
 
 
-def test_get_searchpage(client):
-    response = client.get("/search/")
+@pytest.fixture
+@pytest.mark.django_db
+def User2(client):
+    return User.get_user_by_nickname("User2")
+
+
+@pytest.mark.django_db
+def test_get_searchpage(client, User2):
+    response = client.get(f"/search/{User2.nickname}/")
     assert response.status_code == 200
+    assert response.context['user'] == User2
     assert [] == response.context[ARTICLES]
     assert '' == response.context[SEARCHINPUT]
     assert 'title' == response.context[SEARCHMETHOD]
     assert 0 == response.context[COUNT]
     assert '' == response.context[MESSAGE]
+
+
+@pytest.mark.django_db
+def test_get_empty_searchpage(client):
+    response = client.get("/search/")
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_get_ivalid_nickname_searchpage(client, User2):
+    response = client.get(f"/search/fake{User2.nickname}/")
+    assert response.status_code == 404
 
 
 @pytest.fixture
@@ -121,8 +141,8 @@ def test_invalid_subject_searchpage_result(client):
 
 
 @pytest.mark.django_db
-def test_valid_user_searchpage_results(client, articles_by_user):
-    response = client.post('/search/', {'searchInput': VALIDUSER, 'searchOptions': 'user'})
+def test_valid_user_searchpage_results(client, articles_by_user, User2):
+    response = client.post(f'/search/{User2.nickname}/', {'searchInput': VALIDUSER, 'searchOptions': 'user'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == VALIDUSER
     for i in response.context[ARTICLES]:
@@ -141,8 +161,8 @@ def test_invalid_user_searchpage_result(client):
 
 
 @pytest.mark.django_db
-def test_empty_searchpage_results(client):
-    response = client.post('/search/', {'searchInput': '', 'searchOptions': 'title'})
+def test_empty_searchpage_results(client, User2):
+    response = client.post(f'/search/{User2.nickname}/', {'searchInput': '', 'searchOptions': 'title'})
     assert response.context[MESSAGE] == EMPTY_TITLE_MESSAGE
 
 
@@ -238,3 +258,62 @@ def test_signup_page(client):
     assert response.status_code == 200
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     assert 'signup/signup.html' in template_names
+
+
+@pytest.mark.django_db
+def test_read_view_new_article(client, world_cup_article, User2):
+    """
+    Testing the number of views in a new article (not viewed yet)
+    => num of views should increase by 1
+    """
+    # recieving world cup article that User 2 didn't view yet, plus getting num views of it
+    num_views1 = world_cup_article.num_of_views
+
+    # preparing the page route
+    route = '/article/{0}/{1}/'.format(User2.nickname, world_cup_article.id)
+
+    # Send a GET request to the page
+    response = client.get(route)
+
+    assert response.status_code == 200
+    assert response.context['user'] == User2
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that show/read_article.html is in the set.
+    assert 'show/read_article.html' in template_names
+    # checking the result of the view return
+    assert response.context['article'] == world_cup_article
+    # getting num of views after viewing the article
+    num_views2 = response.context['article'].num_of_views
+    # checking that num views has been increased
+    assert num_views2 == num_views1 + 1
+
+
+@pytest.mark.django_db
+def test_read_already_viewed_article(client, math_article, User2):
+    """
+    Testing the number of views in an already viewed article (got viewed in the past)
+    => num of views should't increase
+    """
+    # recieving world cup article that User 2 didn't view yet, plus getting num views of it
+    num_views1 = math_article.num_of_views
+
+    # preparing the page route
+    route = '/article/{0}/{1}/'.format(User2.nickname, math_article.id)
+
+    # Send a GET request to the page
+    response = client.get(route)
+
+    assert response.status_code == 200
+    assert response.context['user'] == User2
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that show/read_article.html is in the set.
+    assert 'show/read_article.html' in template_names
+
+    # checking the result of the view return
+    assert response.context['article'] == math_article
+    # getting num of views after viewing the article
+    num_views2 = response.context['article'].num_of_views
+    #  checking that num views didn't increased
+    assert num_views2 == num_views1
