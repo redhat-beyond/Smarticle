@@ -40,7 +40,7 @@
                             <p>{{article.content | truncatechars:70}}</p>
                             <footer>
                                 <div class="footer">
-                                    <button role="submit">View Blog</button>
+                                    <a href="{% url 'show_article' article.id %}"><button>View Blog</button></a>
                                     <p>
                                         <strong>Category</strong>: 
                                         {% if article.subject_id == null %}

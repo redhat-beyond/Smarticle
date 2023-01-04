@@ -81,3 +81,15 @@ def view(user, article):
 def articles_num():
     articles_num = Article.objects.count()
     return articles_num
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def world_cup_article(client):
+    return Article.search_by_title('world cup')[0]
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def math_article(client):
+    return Article.search_by_title('1+1')[0]
