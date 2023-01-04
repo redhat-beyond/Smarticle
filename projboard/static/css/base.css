@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Zilla+Slab:wght@400;700&display=swap');
 
 body {
-    background-image: linear-gradient(to bottom right, #FFEFD6  ,#eec98d,#e8d890);
+    background: #dfe7f5;;
     font-family: 'Zilla Slab', serif;
 }
 main{
