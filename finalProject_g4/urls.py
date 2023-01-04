@@ -22,7 +22,8 @@ urlpatterns = [
     path('', views.home_page, name='homepage'),
     path('search/', views.search, name='search'),
     path('create_article/', views.create_article, name='create_article'),
-    path('about/', views.about_page, name='aboutpage')
+    path('about/', views.about_page, name='aboutpage'),
+    path('my_articles/', views.my_articles, name="my_articles")
 ]
 
 handler404 = views.error_404
