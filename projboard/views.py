@@ -64,10 +64,6 @@ def my_articles(request):
     else:
         raise Http404()
 
-    return render(request, 'myArticles/my_articles.html', {
-        'my_articles': my_articles,
-        'num_articles': num_articles})
-
 
 def home_page(request):
     articles = []

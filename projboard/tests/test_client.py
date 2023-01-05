@@ -102,7 +102,7 @@ def test_get_my_articles(client):
     assert response.status_code == 200
 
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
-    assert 'my_articles' in template_names
+    assert 'myArticles/my_articles.html' in template_names
 
 
 def test_error_404(client):
