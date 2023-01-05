@@ -14,7 +14,13 @@ class Migration(migrations.Migration):
 
         test_data = [
             'Sport',
-            'Math'
+            'Math',
+            'Software',
+            'Medicine and health',
+            'Business',
+            'Education',
+            'Food',
+            'Hobbies',
         ]
         with transaction.atomic():
             for s in test_data:
