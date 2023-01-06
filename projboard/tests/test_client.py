@@ -414,3 +414,16 @@ def test_edit_article_form():
     }
     form = EditArticleForm(data=form_data)
     assert form.is_valid
+
+
+def test_login(client):
+    response = client.get('/accounts/login/')
+    assert response.status_code == 200
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'login/login.html' in template_names
+
+
+def test_logout(client):
+    response = client.post('/accounts/logout/')
+    assert response.status_code == 302
+    assert response.url == '/'
