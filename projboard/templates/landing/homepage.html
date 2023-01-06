@@ -78,7 +78,6 @@
     <!-- LEFT SIDE SECTION-->
     <h2 class="section__description">Articles</h2>
     <div class="articles__content left-area">
-      <!-- I NEED TO CHANGE THIS TEMPLATE VIEW-->
       <hr />
       <article>
         {% for article in articles %}
@@ -93,6 +92,7 @@
           <strong>Category</strong>: {% if article.subject_id == null %} Unknown
           {% else %} {{article.subject_id}} {% endif %}
         </p>
+        <!-- LATER ONLY AUTHINTECATED USER CAN USE IT-->
         <button class="btn" role="submit">View Blog</button>
       </article>
       <hr />
