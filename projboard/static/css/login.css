@@ -1,20 +1,32 @@
-form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: 0 auto;
-    border: 1px solid rgb(20, 17, 17);
-    border-radius: 5px;
-    padding: 20px;
+.user_card {
+    width: 350px;
+    margin-top: 40px;
+    padding: 15px;
+    background: #cfd7ee;
+    border-radius: 6px;
+    justify-content: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+}
+
+h1 {
+  color: black;
 }
   
-form input[type="submit"] {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 8px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 3px;
+.login_button {
+  width: 80%;
+  background: #8a7eee;
+  color: white ;
+}
+
+.input-group-text {
+  background: #8a7eee;
+  color: white;
+}
+
+#messages{
+  background-color: lightgray;
+  color: rgb(159, 160, 160);
+  padding: 10px;
+  margin-top: 10px;
 }
   
