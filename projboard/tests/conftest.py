@@ -74,3 +74,10 @@ def view(user, article):
     view_article = View_Article(user_id=user, article_id=article)
     view_article.save()
     return view_article
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def articles_num():
+    articles_num = Article.objects.count()
+    return articles_num
