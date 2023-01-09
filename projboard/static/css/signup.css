@@ -1,0 +1,52 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-form {
+  overflow: hidden;
+  position: relative;
+  max-width: 600px;
+  margin: auto;
+  border-radius: 4px;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+}
+
+/*ADDING POPOUT MESSAGE FOR FORM OUTPUT*/
+.messages {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.messages li {
+  padding: 10px;
+  margin: 10px 0;
+  color: white;
+  background-color: #d20a0a;
+  animation: popout 0.5s ease-in-out;
+  animation-fill-mode: forwards; /*END STATE*/
+}
+
+/* Keyframes for the animation */
+@keyframes popout {
+  0% {
+    transform: scale(0); /* START */
+  }
+  100% {
+    transform: scale(1); /* END */
+  }
+}

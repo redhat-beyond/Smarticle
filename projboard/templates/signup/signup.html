@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}" />
+
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href=
+"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+</head>
+
+
+<div class="content-container">
+    <h1>
+      <!-- Green highlight effect -->
+      <span class="highlight">SIGN UP</span>
+      <br />
+    </h1>
+</div>
+<div class="signup-form ">
+  <form method="POST" class="register-form">
+    {% csrf_token %}
+    <br />
+    <div class="form-group">
+      <label for="email">
+        <i class="bi bi-envelope-fill">Email: {{ register_form.email }}</i>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="name">
+        <i class="bi bi-person-fill">Name: {{ register_form.name }}</i>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="nickname">
+        <i class="bi bi-person-badge">Nickname: {{ register_form.nickname }}</i>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="password-1">
+        <i class="bi bi-lock">Password: {{ register_form.password }}</i>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="password-1">
+        <i class="bi bi-lock-fill">Confirm Password: {{ register_form.password_confirm}}</i>
+      </label>
+    </div>
+    <div class="form-group">
+      <button class="btn" type="submit">Register</button>
+    </div>
+    <div class="form-group">
+      <p class="text-center">
+        Already have an account? <a class="btn" href="/">Login</a>
+      </p>
+    </div>
+  </form>
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</div>
+{% endblock %}
