@@ -1,14 +1,7 @@
 import pytest
 from django.contrib.auth.models import User
 from pytest_django.asserts import assertTemplateUsed
-
-VALID_USER = "smarticleUser"
-VALID_EMAIL = "user@telhai.ac.il"
-VALID_PASSWORD = "smarticlePassword"
-
-INVALID_EMAIL = "user.telhai.ac.il"
-INVALID_PASSWORD_MISMATCH = "smarticlePasswordMismatch"
-LOGIN_PATH = "login/login.html"
+from conftest import (VALID_USER, VALID_EMAIL, VALID_PASSWORD, INVALID_PASSWORD_MISMATCH, LOGIN_PATH)
 
 
 @pytest.mark.django_db
