@@ -1,10 +1,11 @@
-from .models.article import Article
+from .models.article import Article, View_Article, Like
 from django.shortcuts import render
 from .models.user import User
 from .forms import CreateArticleForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def error_404(request, exception):
@@ -59,3 +60,27 @@ def home_page(request):
 
 def about_page(request):
     return render(request, 'about/about.html', {})
+
+
+def show_article(request, article_pk):
+
+    # TODO when Authintiaction is implemented => del this line and check wich user is loged in
+    user = User.get_user_by_nickname("User2")
+    article = Article.objects.get(pk=article_pk)
+
+    if request.method == 'POST':
+        try:
+            Like.objects.get(user_id=user.id, article_id=article_pk)
+            Like.delete_like(user_id=user.id, article_id=article_pk)
+
+        except ObjectDoesNotExist:
+            Like.create_like(user_id=user, article_id=article)
+
+    else:
+        try:
+            View_Article.objects.get(user_id=user.id, article_id=article_pk)
+        except ObjectDoesNotExist:
+            new_view = View_Article(user_id=user, article_id=article)
+            new_view.save()
+
+    return render(request, 'show/read_article.html', {'article': article})

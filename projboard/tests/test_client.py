@@ -113,3 +113,100 @@ def test_aboutpage(client):
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     # And check if that 'about/about.html' is in the set.
     assert 'about/about.html' in template_names
+
+
+@pytest.mark.django_db
+def test_read_new_article(client, world_cup_article):
+
+    # recieving world cup article that User 2 didn't view yet, plus getting num views of it
+    num_views1 = world_cup_article.num_of_views
+
+    # preparing the page route
+    route = '/article/{}'.format(world_cup_article.id)
+
+    # Send a GET request to the page
+    response = client.get(route)
+
+    assert response.status_code == 200
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that show/read_article.html is in the set.
+    assert 'show/read_article.html' in template_names
+    # checking the result of the view return
+    assert response.context['article'] == world_cup_article
+    # getting num of views after viewing the article
+    num_views2 = response.context['article'].num_of_views
+    # checking that num views has been increased
+    assert num_views2 == num_views1 + 1
+
+
+@pytest.mark.django_db
+def test_read_old_article(client, math_article):
+
+    # recieving world cup article that User 2 didn't view yet, plus getting num views of it
+    num_views1 = math_article.num_of_views
+
+    # preparing the page route
+    route = '/article/{}'.format(math_article.id)
+
+    # Send a GET request to the page
+    response = client.get(route)
+
+    assert response.status_code == 200
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that show/read_article.html is in the set.
+    assert 'show/read_article.html' in template_names
+
+    # checking the result of the view return
+    assert response.context['article'] == math_article
+    # getting num of views after viewing the article
+    num_views2 = response.context['article'].num_of_views
+    #  checking that num views didn't increased
+    assert num_views2 == num_views1
+
+
+@pytest.mark.django_db
+def test_like_article(client, world_cup_article):
+    # recieving world cup article that User 2 didn't like yet, plus getting num likes of it
+    num_likes1 = world_cup_article.num_of_likes
+
+    # preparing the page route
+    route = '/article/{}'.format(world_cup_article.id)
+    # Send a POST request to the page
+    response = client.post(route)
+
+    assert response.status_code == 200
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that 'about/about.html' is in the set.
+    assert 'show/read_article.html' in template_names
+    # checking the result of the view return
+    assert response.context['article'] == world_cup_article
+    # getting num of likes after liking the article
+    num_likes2 = response.context['article'].num_of_likes
+    #  checking that num likes has been increased
+    assert num_likes2 == num_likes1 + 1
+
+
+@pytest.mark.django_db
+def test_dislike_article(client, math_article):
+    # recieving world cup article that User 2 didn't like yet, plus getting num likes of it
+    num_likes1 = math_article.num_of_likes
+
+    # preparing the page route
+    route = '/article/{}'.format(math_article.id)
+    # Send a POST request to the page
+    response = client.post(route)
+
+    assert response.status_code == 200
+    # Create a set of template names from the templates used in the response
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    # And check if that 'about/about.html' is in the set.
+    assert 'show/read_article.html' in template_names
+    # checking the result of the view return
+    assert response.context['article'] == math_article
+    # getting num of likes after liking the article
+    num_likes2 = response.context['article'].num_of_likes
+    # checking that num likes has been dicreased
+    assert num_likes2 == num_likes1 - 1
