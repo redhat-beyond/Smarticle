@@ -7,6 +7,7 @@ from .forms import LoginForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages
 
 
 def error_404(request, exception):
@@ -72,7 +73,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('/')
             else:
-                form.add_error(None, 'Invalid login')
+                messages.info(request, 'Invalid username or password')
     else:
         form = LoginForm()
-    return render(request, 'login/login.html', {'form': form})
+    return render(request, 'login/login.html')

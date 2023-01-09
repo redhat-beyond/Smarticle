@@ -1,6 +1,7 @@
 .user_card {
     width: 350px;
-    margin-top: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     padding: 15px;
     background: #cfd7ee;
     border-radius: 6px;
@@ -24,9 +25,10 @@ h1 {
 }
 
 #messages{
-  background-color: lightgray;
-  color: rgb(159, 160, 160);
+  background-color: white;
+  color: red;
   padding: 10px;
   margin-top: 10px;
+  text-align: center;
 }
   
