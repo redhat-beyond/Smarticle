@@ -76,4 +76,4 @@ def login_view(request):
                 messages.info(request, 'Invalid username or password')
     else:
         form = LoginForm()
-    return render(request, 'login/login.html')
+    return render(request, 'login/login.html', {'form': form})
