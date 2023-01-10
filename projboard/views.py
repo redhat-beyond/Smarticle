@@ -1,10 +1,13 @@
 from .models.article import Article
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from .models.user import User
 from .forms import CreateArticleForm
+from .forms import LoginForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages
 
 
 def error_404(request, exception):
@@ -59,3 +62,20 @@ def home_page(request):
 
 def about_page(request):
     return render(request, 'about/about.html', {})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                messages.info(request, 'Invalid username or password')
+    else:
+        form = LoginForm()
+    return render(request, 'login/login.html', {'form': form})
