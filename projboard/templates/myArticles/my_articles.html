@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Smarticle CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/my_articles.css' %}">
+
+  <!-- Google CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />    
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Anton&family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet">
+
+  <title>Smarticle</title>
+
+</head>
+
+<body>
+  <section id="articlessection">
+    <h2>My Articles:</h2>
+    {% if num_articles > 0 %}
+        <div id="My_Articles">
+            {% for article in my_articles %}
+                <hr>
+                <article>
+                    <header><p class="nickname"> &#128100; {{article.user_id.nickname}} | &#8987; {{article.date}} </p></header>
+                    <h2>{{article.title | truncatechars:30}}</h2>
+                    <p>{{article.content | truncatechars:70}}</p>
+                    <footer>
+                        <div class="footer">
+                            <p>
+                                <strong>Category</strong>: 
+                                {% if article.subject_id == null %}
+                                    Unknown
+                                {% else %}
+                                    {{article.subject_id}}
+                                {% endif %} 
+                            </p>
+                            <span class="material-symbols-outlined">
+                                reviews
+                            </span>
+                            <p><strong>
+                                Views: {{ article.num_of_views }}  
+                            </strong></p>
+                            <span class="material-symbols-outlined">
+                                thumb_up
+                            </span>
+                            <p><strong>  
+                                Likes: {{ article.num_of_likes }} 
+                            </strong></p>
+                            <button id="edit_button" role="submit">Edit</button>
+                            <button id="delete_button" role="submit">Delete Blog</button>
+                        </div>
+                    </footer>
+                </article>
+            {% endfor %}
+            <hr>
+        </div>
+    
+    {% else %}
+    <h4 class="NotFound">Article Not Found.</h4>
+    {% endif %}
+  </section>
+</body>
+{% endblock %}
+
+
+

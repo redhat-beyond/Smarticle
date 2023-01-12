@@ -96,6 +96,17 @@ def test_fill_article_delete(client):
     assert '404.html' in template_names
 
 
+@pytest.mark.django_db
+def test_get_my_articles(client):
+    response = client.get("/my_articles/")
+    assert response.status_code == 200
+
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'myArticles/my_articles.html' in template_names
+
+    assert len(set(response.context["my_articles"])) == response.context[COUNT]
+
+
 def test_error_404(client):
     response = client.delete('/NOT_EXSITS_FAKE_ROUTE/')
 
