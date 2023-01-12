@@ -104,7 +104,9 @@ def sign_up(request):
         return redirect('homepage')
 
     form = NewUserForm()
+    registration_attempt = False
     if request.method == 'POST':
+        registration_attempt = True
         form = NewUserForm(request.POST)
         if form.is_valid():
             form.save()
@@ -115,4 +117,4 @@ def sign_up(request):
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
-    return render(request, 'signup/signup.html', {'register_form': form})
+    return render(request, 'signup/signup.html', {'register_form': form, 'registration_attempt': registration_attempt})
