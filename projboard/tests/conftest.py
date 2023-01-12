@@ -4,6 +4,21 @@ from projboard.models.article import Article, User, View_Article, Like, Subject
 
 TITLE = "Article Test"
 CONTENT = "I'm not gonna write all that!"
+VALID_USER = "smarticleUser"
+VALID_EMAIL = "user@telhai.ac.il"
+VALID_NAME = "smarticleName"
+VALID_PASSWORD = "smarticlePassword"
+INVALID_EMAIL = "user.telhai.ac.il"
+INVALID_PASSWORD_MISMATCH = "smarticlePasswordMismatch"
+SIGNUP_PATH = "/signup/"
+MISMATCH_MESSAGE_ERROR = "Unsuccessful registration. Invalid information."
+VALID_DATA = {
+    'email': 'example@example.com',
+    'name': 'John Doe',
+    'nickname': 'johndoe',
+    'password': 'password',
+    'password_confirm': 'password',
+}
 
 
 @pytest.fixture
