@@ -104,6 +104,8 @@ def test_get_my_articles(client):
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     assert 'myArticles/my_articles.html' in template_names
 
+    assert len(set(response.context["my_articles"])) == response.context[COUNT]
+
 
 def test_error_404(client):
     response = client.delete('/NOT_EXSITS_FAKE_ROUTE/')
