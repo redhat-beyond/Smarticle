@@ -67,7 +67,9 @@ def my_articles(request):
 
 
 def home_page(request):
-    return render(request, 'landing/homepage.html', {})
+    articles = []
+    articles = Article.objects.all()
+    return render(request, 'landing/homepage.html', {'articles': articles})
 
 
 def about_page(request):

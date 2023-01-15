@@ -15,6 +15,8 @@ class Migration(migrations.Migration):
         test_data = [
             ['Smarticle@walla.co.il', '123456', 'John Doe', 'User1'],
             ['testEmail@gmail.com', '123456', 'Full Name', 'User2'],
+            ['alanTuring2@gmail.com', '123456', 'Alan Turing', 'User3'],
+            ['Euler3@gmail.com', '123456', 'Leonhard Euler', 'User4'],
         ]
         with transaction.atomic():
             for u in test_data:
