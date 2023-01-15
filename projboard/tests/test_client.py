@@ -1,13 +1,31 @@
 import pytest
 from projboard.models.article import Article
+from projboard.models.subject import Subject
+from projboard.models.user import User
 
-SEARCHTITLE = 'search_title'
+
+SEARCHINPUT = 'search_input'
+SEARCHMETHOD = 'search_method'
 ARTICLES = 'articles'
 COUNT = 'num_articles'
 VALUE = 'test'
 MESSAGE = 'message'
+
+VALIDTITLE = 'world cup'
+INVALIDINPUT = 'INVALID'
+
+VALIDSUBJECT = 'Sport'
+INVALIDSUBJECT = 'INVALID'
+
+VALIDUSER = 'User2'
+INVALIDUSER = 'INVALID'
+
+
 EMPTY_TITLE_MESSAGE = "please enter a title!"
 MY_ARTICLES = 'my_articles'
+WRONG_TITLE_MESSAGE = "Article didn\'t found"
+WRONG_SUBJECT_MESSAGE = "Subject Not Valid"
+WRONG_USER_MESSAGE = "User Name Not Valid"
 
 
 @pytest.mark.django_db
@@ -24,32 +42,107 @@ def test_get_searchpage(client):
     response = client.get("/search/")
     assert response.status_code == 200
     assert [] == response.context[ARTICLES]
-    assert '' == response.context[SEARCHTITLE]
+    assert '' == response.context[SEARCHINPUT]
+    assert 'title' == response.context[SEARCHMETHOD]
     assert 0 == response.context[COUNT]
     assert '' == response.context[MESSAGE]
 
 
 @pytest.fixture
 @pytest.mark.django_db
-def search_by_title():
-    articles = Article.search_by_title(VALUE)
-    return articles
+def articles_by_title():
+    articles_by_title = Article.search_by_title(VALIDTITLE)
+    return articles_by_title
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def invalid_articles_by_title():
+    invalid_articles_by_title = Article.search_by_title(INVALIDINPUT)
+    return invalid_articles_by_title
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def articles_by_subject():
+    subject = Subject.objects.get(name=VALIDSUBJECT)
+    articles_by_subject = Article.search_by_subject(subject.id)
+    return articles_by_subject
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def articles_by_user():
+    user = User.get_user_by_nickname(VALIDUSER)
+    valid_articles_by_user = Article.search_by_user(user.id)
+    return valid_articles_by_user
 
 
 @pytest.mark.django_db
-def test_valued_searchpage_results(client, articles):
-    response = client.post('/search/', {'title': VALUE})
+def test_valid_title_searchpage_results(client, articles_by_title):
+    response = client.post('/search/', {'searchInput': VALIDTITLE, 'searchOptions': 'title'})
     assert response.status_code == 200
-    assert response.context[SEARCHTITLE] == VALUE
+    assert response.context[SEARCHINPUT] == VALIDTITLE
     for i in response.context[ARTICLES]:
-        assert i in articles
-    assert response.context[COUNT] == len(articles)
+        assert i in articles_by_title
+    assert response.context[COUNT] == len(articles_by_title)
     assert response.context[MESSAGE] == ""
 
 
 @pytest.mark.django_db
+def test_invalid_title_searchpage_results(client, invalid_articles_by_title):
+    response = client.post('/search/', {'searchInput': INVALIDINPUT, 'searchOptions': 'title'})
+    assert response.status_code == 200
+    assert response.context[SEARCHINPUT] == INVALIDINPUT
+    for i in response.context[ARTICLES]:
+        assert i in invalid_articles_by_title
+    assert response.context[COUNT] == len(invalid_articles_by_title)
+    assert response.context[MESSAGE] == WRONG_TITLE_MESSAGE
+
+
+@pytest.mark.django_db
+def test_valid_subject_searchpage_results(client, articles_by_subject):
+    response = client.post('/search/', {'searchInput': VALIDSUBJECT, 'searchOptions': 'subject'})
+    assert response.status_code == 200
+    assert response.context[SEARCHINPUT] == VALIDSUBJECT
+    for i in response.context[ARTICLES]:
+        assert i in articles_by_subject
+    assert response.context[COUNT] == len(articles_by_subject)
+    assert response.context[MESSAGE] == ""
+
+
+@pytest.mark.django_db
+def test_invalid_subject_searchpage_result(client):
+    response = client.post('/search/', {'searchInput': INVALIDSUBJECT, 'searchOptions': 'subject'})
+    assert response.status_code == 200
+    assert response.context[SEARCHINPUT] == INVALIDSUBJECT
+    assert response.context[COUNT] == 0
+    assert response.context[MESSAGE] == WRONG_SUBJECT_MESSAGE
+
+
+@pytest.mark.django_db
+def test_valid_user_searchpage_results(client, articles_by_user):
+    response = client.post('/search/', {'searchInput': VALIDUSER, 'searchOptions': 'user'})
+    assert response.status_code == 200
+    assert response.context[SEARCHINPUT] == VALIDUSER
+    for i in response.context[ARTICLES]:
+        assert i in articles_by_user
+    assert response.context[COUNT] == len(articles_by_user)
+    assert response.context[MESSAGE] == ""
+
+
+@pytest.mark.django_db
+def test_invalid_user_searchpage_result(client):
+    response = client.post('/search/', {'searchInput': INVALIDUSER, 'searchOptions': 'user'})
+    assert response.status_code == 200
+    assert response.context[SEARCHINPUT] == INVALIDUSER
+    assert response.context[COUNT] == 0
+    assert response.context[MESSAGE] == WRONG_USER_MESSAGE
+
+
+@pytest.mark.django_db
 def test_empty_searchpage_results(client):
-    response = client.post('/search/', {'title': ''})
+    response = client.post('/search/', {'searchInput': '', 'searchOptions': 'title'})
     assert response.context[MESSAGE] == EMPTY_TITLE_MESSAGE
 
 
