@@ -81,3 +81,10 @@ def view(user, article):
 def articles_num():
     articles_num = Article.objects.count()
     return articles_num
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def user_articles(user):
+    user_articles = Article.search_by_user(user)
+    return user_articles

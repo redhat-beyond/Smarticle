@@ -7,6 +7,7 @@ COUNT = 'num_articles'
 VALUE = 'test'
 MESSAGE = 'message'
 EMPTY_TITLE_MESSAGE = "please enter a title!"
+MY_ARTICLES = 'my_articles'
 
 
 @pytest.mark.django_db
@@ -97,14 +98,26 @@ def test_fill_article_delete(client):
 
 
 @pytest.mark.django_db
-def test_get_my_articles(client):
+def test_get_my_articles(client, user, user_articles):
+    # test edge case of sending user nickname = ''
     response = client.get("/my_articles/")
+    assert response.status_code == 404
+
+    # test edge case of sending nickname that doesnt belong to any user in DB
+    response = client.get(f"/my_articles/fake{user.nickname}/")
+    assert response.status_code == 404
+
+    # test a correct nickname
+    response = client.get(f"/my_articles/{user.nickname}/")
     assert response.status_code == 200
 
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     assert 'myArticles/my_articles.html' in template_names
 
-    assert len(set(response.context["my_articles"])) == response.context[COUNT]
+    # test that all the users article found by length and by articles
+    assert response.context[COUNT] == len(user_articles)
+    for article in response.context[MY_ARTICLES]:
+        assert article in user_articles
 
 
 def test_error_404(client):

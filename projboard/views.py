@@ -51,17 +51,18 @@ def create_article(request):
     })
 
 
-def my_articles(request):
-    # TODO when we end to create authentication and authorization, change "User1"
-    user = User.get_user_by_nickname("User1")
-    my_articles = Article.search_by_user(user)
-    num_articles = len(my_articles)
+def my_articles(request, nickname=''):
+    try:
+        user = User.get_user_by_nickname(nickname)
+        my_articles = Article.search_by_user(user)
+        num_articles = len(my_articles)
 
-    if request.method == "GET":
         return render(request, 'myArticles/my_articles.html', {
+            'user': user,
             'my_articles': my_articles,
-            'num_articles': num_articles})
-    else:
+            'num_articles': num_articles
+        })
+    except User.DoesNotExist:
         raise Http404()
 
 
