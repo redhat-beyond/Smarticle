@@ -51,6 +51,21 @@ def create_article(request):
     })
 
 
+def my_articles(request, nickname=''):
+    try:
+        user = User.get_user_by_nickname(nickname)
+        my_articles = Article.search_by_user(user)
+        num_articles = len(my_articles)
+
+        return render(request, 'myArticles/my_articles.html', {
+            'user': user,
+            'my_articles': my_articles,
+            'num_articles': num_articles
+        })
+    except User.DoesNotExist:
+        raise Http404()
+
+
 def home_page(request):
     articles = []
     articles = Article.objects.all()
