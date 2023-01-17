@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models.user import User
 from .models.subject import Subject
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import CreateArticleForm, NewUserForm
+from .forms import CreateArticleForm, NewUserForm, EditArticleForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
@@ -117,3 +117,38 @@ def sign_up(request):
             messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request, 'signup/signup.html', {'register_form': form, 'registration_attempt': registration_attempt})
+
+
+def delete_article(request, article_pk):
+    try:
+        article = Article.objects.get(id=article_pk)
+        article.delete()
+        return redirect(home_page)
+
+    except User.DoesNotExist:
+        raise Http404()
+
+
+def edit_article(request, article_pk):
+    try:
+        article = Article.objects.get(article_pk)
+
+        initial = {'article_id': article, 'title': article.title,
+                   'subject': article.subject_id, 'content': article.content}
+        if request.method == "POST":
+            form = EditArticleForm(request.POST, initial=initial)
+            if form.is_valid():
+                form.save()
+                return render(request, 'editArticle/edit_article.html', initial)
+        # elif request.method == "DELETE":
+        #     raise Http404()
+        else:
+            form = EditArticleForm(initial=initial)
+
+        return render(request, 'editArticle/edit_article.html', {
+            'article_pk': article_pk,
+            'form': form,
+        })
+    except User.DoesNotExist:
+        # raise Http404()
+        return redirect(home_page)
