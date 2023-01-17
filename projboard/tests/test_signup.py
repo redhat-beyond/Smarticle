@@ -54,6 +54,8 @@ def test_valid_registration(client):
     assert User.get_user_by_nickname(VALID_USER)
     # THIS ASSERT IS SETTED FOR HOMEPAGE BECAUSE /LOGIN ARENT READY YET
     assert response.url == '/'
+    redirect_response = client.get(response.url)
+    assert redirect_response.status_code == 200
 
 
 @pytest.mark.django_db
