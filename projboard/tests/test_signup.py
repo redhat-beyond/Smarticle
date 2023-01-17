@@ -23,10 +23,7 @@ def test_valid_form():
         'password_confirm': VALID_PASSWORD,
     }
     form = NewUserForm(data=form_data)
-    if form.is_valid():
-        assert True
-    else:
-        assert False
+    assert form.is_valid()
 
 
 @pytest.mark.django_db
@@ -39,10 +36,7 @@ def test_invalid_form():
         'password_confirm': VALID_PASSWORD,
     }
     form = NewUserForm(data=form_data)
-    if form.is_valid():
-        assert False
-    else:
-        assert True
+    assert not form.is_valid()
 
 
 @pytest.mark.django_db
@@ -60,7 +54,6 @@ def test_valid_registration(client):
     assert User.get_user_by_nickname(VALID_USER)
     # THIS ASSERT IS SETTED FOR HOMEPAGE BECAUSE /LOGIN ARENT READY YET
     assert response.url == '/'
-# STILL NEED TO ADD MORE TESTS
 
 
 @pytest.mark.django_db
