@@ -49,8 +49,12 @@
                             <p><strong>  
                                 Likes: {{ article.num_of_likes }} 
                             </strong></p>
-                            <button id="edit_button" role="submit">Edit</button>
-                            <button id="delete_button" role="submit">Delete Blog</button>
+                            <a href="{% url 'edit_article' article_pk=article.id %}">
+                                <button id="edit_button" role="submit">Edit</button>
+                            </a>
+                            <a href = "{% url 'delete_article' article_pk=article.id %}">
+                                <button id="delete_button" role="submit">Delete Blog</button>
+                            </a>
                         </div>
                     </footer>
                 </article>
