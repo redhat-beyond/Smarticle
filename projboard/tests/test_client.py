@@ -99,14 +99,6 @@ def test_fill_article_delete(client):
 
 @pytest.mark.django_db
 def test_get_my_articles(client, user, user_articles):
-    # test edge case of sending user nickname = ''
-    response = client.get("/my_articles/")
-    assert response.status_code == 404
-
-    # test edge case of sending nickname that doesnt belong to any user in DB
-    response = client.get(f"/my_articles/fake{user.nickname}/")
-    assert response.status_code == 404
-
     # test a correct nickname
     response = client.get(f"/my_articles/{user.nickname}/")
     assert response.status_code == 200
@@ -118,6 +110,20 @@ def test_get_my_articles(client, user, user_articles):
     assert response.context[COUNT] == len(user_articles)
     for article in response.context[MY_ARTICLES]:
         assert article in user_articles
+
+
+@pytest.mark.django_db
+def test_my_articles_empty_nickname(client):
+    # test edge case of sending user nickname = ''
+    response = client.get("/my_articles/")
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_my_articles_invalid_nickname(client, user):
+    # test edge case of sending nickname that doesnt belong to any user in DB
+    response = client.get(f"/my_articles/fake{user.nickname}/")
+    assert response.status_code == 404
 
 
 def test_error_404(client):
