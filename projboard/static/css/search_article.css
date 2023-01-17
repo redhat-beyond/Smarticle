@@ -55,7 +55,7 @@ button:hover{
 }
 .search_button{
     margin-bottom: 2em;
-    min-height: 10vh;
+    /* min-height: 10vh; */
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -108,4 +108,11 @@ section{
 span{
     color: #000000;
     margin-right: 3px;
+}
+.searchMethod{
+    display: flex;
+    gap: 2rem;
+}
+.container{
+    margin-bottom: 5em
 }

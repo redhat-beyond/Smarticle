@@ -14,16 +14,24 @@
 
             <form method="POST" action="">
                 {% csrf_token %}
-                
-                <div class="search_button">
-                    <h4><strong><Label for="titleInput">Enter Article Title:</Label></strong></h4>
-                    <div class="wrap">
-                        <span class="material-symbols-outlined">search</span>
-                        <input id="titleInput" type="text" name="title" placeholder="search article.." value="{{search_title}}" required />
-                        
+                <div class="container">
+                    <div class="search_button">
+                        <h4><strong><Label for="titleInput">Enter Article Title:</Label></strong></h4>
+                        <div class="wrap">
+                            <span class="material-symbols-outlined">search</span>
+                            <input id="titleInput" type="text" name="searchInput" placeholder="search article.." value="{{search_input}}" required />
+                        </div>
+                        <button id="searchButton" type="submit">Search</button>
                     </div>
-                    <button id="searchButton" type="submit">Search</button>
+                    <div class="searchMethod">
+                        <h4><strong><label for="searchOptions">Choose search method:</label></strong></h4>
+                    <select name="searchOptions">
+                        <option selected="selected" value="title">Title</option>
+                        <option value="subject">Subject</option>
+                        <option value="user">User</option>
+                    </select>
                 </div>
+            </div>
             </form>
 
     </section>
@@ -68,8 +76,8 @@
                     <hr>
                 </div>
             
-            {% elif search_title != '' %}
-            <h4 class="NotFound">Article Not Found.</h4>
+            {% elif search_input != '' %}
+            <h4 class="NotFound">{{message}}</h4>
             {% endif %}
 
     </section>
