@@ -37,7 +37,7 @@ def search(request):
                 message = 'Subject Not Valid'
             else:
                 articles = Article.search_by_subject(subject.id)
-        else:
+        elif search_method == 'user':
             try:
                 user = User.get_user_by_nickname(search_input)
                 articles = Article.search_by_user(user.id)
