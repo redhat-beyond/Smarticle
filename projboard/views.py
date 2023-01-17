@@ -162,38 +162,33 @@ def show_article(request, user_nickname, article_pk):
 def delete_article(request, article_pk):
     try:
         article = Article.objects.get(id=article_pk)
-        user = article.user_id
         article.delete()
-        nickname = user.nickname
-        return redirect(f"/my_articles/{nickname}/")
+        return redirect(home_page)
 
-    except Article.DoesNotExist:
+    except User.DoesNotExist:
         raise Http404()
 
 
-def edit_article(request, article_pk=None):
+def edit_article(request, article_pk):
     try:
-        article = Article.objects.get(id=article_pk)
-        user_id = article.user_id
+        article = Article.objects.get(article_pk)
 
-        title = article.title
-        subject_id = article.subject_id
-        content = article.content
-
-        initial = {'title': title, 'subject_id': subject_id, 'content': content}
-
+        initial = {'article_id': article, 'title': article.title,
+                   'subject': article.subject_id, 'content': article.content}
         if request.method == "POST":
-            form = EditArticleForm(request.POST)
+            form = EditArticleForm(request.POST, initial=initial)
             if form.is_valid():
-                article.edit(form.data['title'], form.data['content'], form.cleaned_data['subject_id'])
-                return redirect(f"/my_articles/{user_id.nickname}/")
-        elif request.method == "DELETE":
-            raise Http404()
+                form.save()
+                return render(request, 'editArticle/edit_article.html', initial)
+        # elif request.method == "DELETE":
+        #     raise Http404()
         else:
             form = EditArticleForm(initial=initial)
 
         return render(request, 'editArticle/edit_article.html', {
-            'form': form
+            'article_pk': article_pk,
+            'form': form,
         })
-    except Article.DoesNotExist:
-        raise Http404()
+    except User.DoesNotExist:
+        # raise Http404()
+        return redirect(home_page)
