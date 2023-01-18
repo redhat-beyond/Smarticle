@@ -1,5 +1,6 @@
 import pytest
 from projboard.models.article import Article
+from projboard.forms import EditArticleForm
 
 SEARCHTITLE = 'search_title'
 ARTICLES = 'articles'
@@ -8,6 +9,13 @@ VALUE = 'test'
 MESSAGE = 'message'
 EMPTY_TITLE_MESSAGE = "please enter a title!"
 MY_ARTICLES = 'my_articles'
+INVALID_ARTICLE = 1234567
+VALID_TITLE = 'valid title'
+VALID_SUBJECT = 'Software'
+VALID_CONTENT = 'valid content'
+NEW_TITLE = 'new title'
+NEW_SUBJECT = 'Hobbies'
+NEW_CONTENT = 'new content'
 
 
 @pytest.mark.django_db
@@ -143,3 +151,59 @@ def test_aboutpage(client):
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     # And check if that 'about/about.html' is in the set.
     assert 'about/about.html' in template_names
+
+
+@pytest.mark.django_db
+def test_delete_article(client, article):
+    # Test article in DB
+    assert article in set(Article.objects.all())
+
+    # Test deletion response
+    response = client.get(f"/delete_article/{article.id}/")
+    assert response.status_code == 302
+
+    # Test article deletion
+    assert article not in set(Article.objects.all())
+
+
+@pytest.mark.django_db
+def test_fail_delete_article(client):
+    response = client.get(f"/delete_article/{INVALID_ARTICLE}/")
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_edit_article(client, article):
+    response = client.get(f"/edit_article/{article.id}/", {"title": NEW_TITLE,
+                                                           "subject_id": NEW_SUBJECT,
+                                                           "content": NEW_CONTENT,
+                                                           "user_id": article.user_id})
+    assert response.status_code == 200
+
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'editArticle/edit_article.html' in template_names
+
+    # Test article before edit
+    assert article in set(Article.objects.all())
+    assert article.content != NEW_CONTENT
+    assert article.title != NEW_TITLE
+    assert article.subject_id != NEW_SUBJECT
+
+    # Test article after edit
+
+
+@pytest.mark.django_db
+def test_edit_invalid_article(client):
+    response = client.get(f"/edit_article/{INVALID_ARTICLE}/")
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_edit_article_form():
+    form_data = {
+        'title': VALID_TITLE,
+        'subject': VALID_SUBJECT,
+        'content': VALID_CONTENT
+    }
+    form = EditArticleForm(data=form_data)
+    assert form.is_valid
