@@ -14,7 +14,4 @@ class CreateArticleForm(forms.ModelForm):
 class EditArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ('user_id', 'title', 'subject_id', 'content')
-        widgets = {
-            'user_id': forms.HiddenInput(),
-        }
+        fields = ('title', 'subject_id', 'content')
