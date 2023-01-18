@@ -172,12 +172,7 @@ def test_fill_article_post(client, article, django_capture_on_commit_callbacks):
                 'user_id': 1,
                 'content': article.content
             })
-
-    # Page after the post
-    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
-    # TODO change board.html to my_article.html
-    assert 'landing/homepage.html' in template_names
-    assert response.status_code == 200
+    assert response.status_code == 302
 
 
 @pytest.mark.django_db
