@@ -29,10 +29,10 @@ WRONG_SUBJECT_MESSAGE = "Subject Not Valid"
 WRONG_USER_MESSAGE = "User Name Not Valid"
 INVALID_ARTICLE = 1234567
 VALID_TITLE = 'valid title'
-VALID_SUBJECT = 'Software'
+VALID_SUBJECT = 5
 VALID_CONTENT = 'valid content'
 NEW_TITLE = 'new title'
-NEW_SUBJECT = 'Hobbies'
+NEW_SUBJECT = 4
 NEW_CONTENT = 'new content'
 
 
@@ -383,22 +383,19 @@ def test_fail_delete_article(client):
 
 @pytest.mark.django_db
 def test_edit_article(client, article):
-    response = client.get(f"/edit_article/{article.id}/", {"title": NEW_TITLE,
-                                                           "subject_id": NEW_SUBJECT,
-                                                           "content": NEW_CONTENT,
-                                                           "user_id": article.user_id})
-    assert response.status_code == 200
-
-    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
-    assert 'editArticle/edit_article.html' in template_names
-
-    # Test article before edit
-    assert article in set(Article.objects.all())
-    assert article.content != NEW_CONTENT
+    # test the article before edit
     assert article.title != NEW_TITLE
-    assert article.subject_id != NEW_SUBJECT
 
-    # Test article after edit
+    # test article editing
+    data = {"title": NEW_TITLE, "subject_id": NEW_SUBJECT, "content": NEW_CONTENT}
+    response = client.post(f"/edit_article/{article.id}/", data=data)
+    assert response.status_code == 302
+    assert response.url == f"/my_articles/{article.user_id.nickname}/"
+
+    edited_article = Article.objects.get(pk=article.id)
+    assert edited_article.title == NEW_TITLE
+    assert edited_article.subject_id.id == NEW_SUBJECT
+    assert edited_article.content == NEW_CONTENT
 
 
 @pytest.mark.django_db
