@@ -22,7 +22,7 @@ def search(request, user_nickname):
     except ObjectDoesNotExist:
         raise Http404()
 
-    search_title = ''
+    search_input = ''
     articles = []
     message = ''
     search_method = 'title'
