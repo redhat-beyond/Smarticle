@@ -11,12 +11,11 @@
   <title>Smarticle</title>
 </head>
 
-<body>
-    <div class="article-container">
-        <h1 class="edit-article">Edit Article</h1>
-        <form method="POST">
-            {% csrf_token %} {{ form.as_p }}
-            <input type="submit" value="Publish" />
-        </form>
-    </div>
-</body>
+<div class="article-container">
+    <h1 class="edit-article">Edit Article</h1>
+    <form method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+{% endblock %}
