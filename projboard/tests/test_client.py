@@ -363,6 +363,7 @@ def test_read_already_viewed_article(client, math_article, User2):
     assert num_views2 == num_views1
 
 
+@pytest.mark.django_db
 def test_delete_article(client, article):
     # Test article in DB
     assert article in set(Article.objects.all())
