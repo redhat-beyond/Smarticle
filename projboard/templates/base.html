@@ -49,6 +49,30 @@
             </li>
           </ul>
         </div>
+        <!-- SET UP ITS CSS LATER-->
+        {% if not user.is_authenticated %}
+        <ul class="nav__links">
+          <li class="nav__item">
+            <a class="nav__link nav__link--btn" href="/signup"
+              >Open account</a
+            >
+          </li>
+        </ul>
+        {% else %}
+
+        <ul class="nav__links">
+          <li class="nav__item">
+            <a class="nav__link nav__link--btn" href="/"
+              >Logout</a
+            >
+          </li>
+        </ul>
+        {% endif %}
+
+
+
+
+
     </nav>
 
 

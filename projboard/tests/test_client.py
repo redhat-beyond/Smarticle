@@ -236,3 +236,10 @@ def test_aboutpage(client):
     template_names = set(tmpl.origin.template_name for tmpl in response.templates)
     # And check if that 'about/about.html' is in the set.
     assert 'about/about.html' in template_names
+
+
+def test_signup_page(client):
+    response = client.get("/signup/")
+    assert response.status_code == 200
+    template_names = set(tmpl.origin.template_name for tmpl in response.templates)
+    assert 'signup/signup.html' in template_names

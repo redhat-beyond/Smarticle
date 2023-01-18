@@ -1,12 +1,13 @@
 from .models.article import Article
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models.user import User
 from .models.subject import Subject
-from .forms import CreateArticleForm
+from django.core.exceptions import ObjectDoesNotExist
+from .forms import CreateArticleForm, NewUserForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 
 def error_404(request, exception):
@@ -96,3 +97,24 @@ def home_page(request):
 
 def about_page(request):
     return render(request, 'about/about.html', {})
+
+
+def sign_up(request):
+    if request.user.is_authenticated:
+        return redirect('homepage')
+
+    form = NewUserForm()
+    registration_attempt = False
+    if request.method == 'POST':
+        registration_attempt = True
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            nickname = form.cleaned_data.get('nickname')
+            messages.success(request, 'Account '+nickname+' created successfully')
+            # CHANGE THIS TO login
+            return redirect('homepage')
+        else:
+            messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = NewUserForm()
+    return render(request, 'signup/signup.html', {'register_form': form, 'registration_attempt': registration_attempt})

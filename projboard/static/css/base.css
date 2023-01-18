@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Zilla+Slab:wght@400;700&display=swap");
 html {
-  font-size: 72.5%;
+  font-size: 90%;
   box-sizing: border-box;
 }
 body {
@@ -19,4 +19,39 @@ h2 {
 }
 p {
   color: #3a8891;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.nav__item {
+  margin-left: 4rem;
+}
+
+.nav__link:link,
+.nav__link:visited {
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s;
+}
+
+.nav__link--btn:link,
+.nav__link--btn:visited {
+  padding: 0.8rem 2.5rem;
+  border-radius: 3rem;
+  background-color: #5ec576;
+  color: #222;
+}
+
+.nav__link--btn:hover,
+.nav__link--btn:active {
+  color: inherit;
+  background-color: #4bbb7d;
+  color: #333;
 }
