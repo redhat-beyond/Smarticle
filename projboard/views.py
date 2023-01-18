@@ -61,8 +61,7 @@ def create_article(request):
         form = CreateArticleForm(request.POST, initial={'user_id': user})
         if form.is_valid():
             form.save()
-            # TODO when we end to create the "my articles" page, change the redirect
-            return render(request, 'landing/homepage.html', {'articles': Article.search_by_user(user)})
+            return redirect(f'/my_articles/{user.nickname}')
     elif request.method == "DELETE":
         raise Http404()
     else:
