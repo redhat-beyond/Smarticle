@@ -41,7 +41,7 @@ class NewUserForm(forms.ModelForm):
 class EditArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ('title', 'subject_id', 'content')
+        fields = ('user_id', 'title', 'subject_id', 'content')
         widgets = {
-            'article_id': forms.HiddenInput(),
+            'user_id': forms.HiddenInput(),
         }
