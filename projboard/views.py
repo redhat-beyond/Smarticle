@@ -92,12 +92,15 @@ def edit_article(request, article_pk=None):
     try:
         article = Article.objects.get(id=article_pk)
         user_id = article.user_id
+
         title = article.title
         subject_id = article.subject_id
         content = article.content
-        initial = {'user_id': user_id, 'title': title, 'subject_id': subject_id, 'content': content}
+
+        initial = {'title': title, 'subject_id': subject_id, 'content': content}
+
         if request.method == "POST":
-            form = EditArticleForm(request.POST, initial)
+            form = EditArticleForm(request.POST)
             if form.is_valid():
                 article.edit(form.data['title'], form.data['content'], form.cleaned_data['subject_id'])
                 return redirect(f"/my_articles/{user_id.nickname}/")
@@ -107,8 +110,7 @@ def edit_article(request, article_pk=None):
             form = EditArticleForm(initial=initial)
 
         return render(request, 'editArticle/edit_article.html', {
-            'user_id': user_id,
-            'form': form,
+            'form': form
         })
     except Article.DoesNotExist:
         raise Http404()
