@@ -20,11 +20,12 @@ from projboard import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name='homepage'),
-    path('search/', views.search, name='search'),
+    path('search/<str:user_nickname>/', views.search, name='search'),
     path('create_article/', views.create_article, name='create_article'),
     path('about/', views.about_page, name='aboutpage'),
     path('my_articles/<str:nickname>/', views.my_articles, name="my_articles"),
-    path('signup/', views.sign_up, name='signup')
+    path('signup/', views.sign_up, name='signup'),
+    path('article/<str:user_nickname>/<str:article_pk>/', views.show_article, name='show_article'),
 ]
 
 handler404 = views.error_404

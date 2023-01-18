@@ -1,0 +1,36 @@
+
+article{
+    max-width: 70%;
+    margin: 0 auto;
+    
+}
+header{
+    min-height: 40vh;
+}
+.footer {
+    
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
+}
+.footer > *{
+    margin : 0px 0px 0px;
+}
+hr {
+    border: 0; 
+  height: 3px; 
+  background-image: -webkit-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+  background-image: -o-linear-gradient(left, #5b5b5b, #3c3326, #f0f0f0);
+}
+.nickname{
+    justify-self: flex-start;    
+}
+.Green{
+    background-color: rgb(54, 169, 38);
+}
+.Red{
+    background-color: rgb(186, 80, 80);
+}

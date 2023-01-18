@@ -103,3 +103,15 @@ def articles_num():
 def user_articles(user):
     user_articles = Article.search_by_user(user)
     return user_articles
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def world_cup_article():
+    return Article.search_by_title('world cup')[0]
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def math_article():
+    return Article.search_by_title('1+1')[0]
