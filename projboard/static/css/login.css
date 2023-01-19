@@ -1,30 +1,27 @@
 :root {
     --gradient-primary: linear-gradient(to top left, #39b385, #9be15d);
 }
-  
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-}
-  
-.login-form {
-    overflow: hidden;
-    position: relative;
-    max-width: 1000px;
-    margin: auto;
-    border-radius: 4px;
-    margin-bottom: 60px;
-    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
-}
- 
+
 .content-container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 10vh;
 }
+
+.user_card {
+    width: 350px;
+    margin-top: 10px;
+    margin-bottom: auto;
+    background: #d6e0f3;
+    ;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+  }
 
 .highlight {
     position: relative;
@@ -44,18 +41,27 @@ form {
     background-image: var(--gradient-primary);
 }
 
-.name_card{
-    color: black;
-    background-image: var(--gradient-primary);
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: underline;
+.form_container {
+    margin-top: 20px;
 }
-  
-.card {
-    background-color: #e8eff9;
-    margin-top: 5px;
+
+.login_btn {
+    width: 100%;
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.input-group-text {
+    background: var(--gradient-primary);
+    color: white;
+    border: 0;
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+#messages{
+    background-color: lightgray;
+    color: darkslategray;
     padding: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-          0 6px 20px 0 rgba(0, 0, 0, 0.15);
+    margin-top: 10px;
 }
+

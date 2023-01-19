@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/authentication.css' %}">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 {% block content %}
+<haed>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+</head>
+<div class="content-container">
+    <h1>
+      <!-- Green highlight effect -->
+      <span class="highlight">LOGIN</span>
+      <br />
+    </h1>
+</div>
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
             <div class="user_card">
-                <div class="d-flex justify-content-center">
-                    <h1 id="form-title">LOGIN</h1>
-                </div>
                 <div class="d-flex justify-content-center form_container">
                     <form method="POST" action="">
                         {% csrf_token %}
@@ -35,7 +41,7 @@
                 </div>
                 <div class="mt-4">
                     <div class="d-flex justify-content-center links">
-                        Don't have an account? <a href="#" class="ml-2">Sign Up</a>
+                        Don't have an account? <a href="{% url 'signup' %}" class="ml-2">Sign Up</a>
                     </div>
 
                 </div>
