@@ -93,7 +93,11 @@
           {% else %} {{article.subject_id}} {% endif %}
         </p>
         <!-- LATER ONLY AUTHINTECATED USER CAN USE IT-->
-        <button class="btn" role="submit">View Blog</button>
+        <a
+          href="{% url 'show_article' user_nickname=article.user_id.nickname article_pk=article.pk %}"
+        >
+          <button class="btn" role="submit">View Blog</button>
+        </a>
       </article>
       <hr />
       {% endfor %}
