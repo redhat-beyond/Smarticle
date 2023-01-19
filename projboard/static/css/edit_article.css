@@ -1,0 +1,70 @@
+:root {
+    --color-primary: #dfe7f5;
+    --color-border: #e3e3e3;
+    --color-white: white;
+    --color-button: #252525;
+    --color-black: black;
+    --gradient-primary: linear-gradient(to top left, #39b385, #9be15d);
+    --gradient-secondary: linear-gradient(to top left, #ffb003, #ffcb03);
+  }
+  .article-container {
+    margin: 20px 0;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .edit-article {
+    margin-bottom: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  form input[type="submit"] {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    background-color: var(--color-button);
+    border: 0;
+    border-radius: 4px;
+    color: var(--color-white);
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  form input[type="submit"]:hover {
+    transform: scale(1.1);
+  }
+  
+  @media (max-width: 576px) {
+    .article-container {
+      padding: 10px;
+    }
+  
+    .new-article {
+      font-size: 1.5em;
+    }
+  
+    form input[type="submit"] {
+      font-size: 0.8em;
+    }
+  }
+  

@@ -2,6 +2,7 @@ import pytest
 from projboard.models.article import Article
 from projboard.models.subject import Subject
 from projboard.models.user import User
+from projboard.forms import EditArticleForm
 
 
 SEARCHINPUT = 'search_input'
@@ -26,6 +27,13 @@ MY_ARTICLES = 'my_articles'
 WRONG_TITLE_MESSAGE = "Article didn\'t found"
 WRONG_SUBJECT_MESSAGE = "Subject Not Valid"
 WRONG_USER_MESSAGE = "User Name Not Valid"
+INVALID_ARTICLE = 1234567
+VALID_TITLE = 'valid title'
+VALID_SUBJECT = 5
+VALID_CONTENT = 'valid content'
+NEW_TITLE = 'new title'
+NEW_SUBJECT = 4
+NEW_CONTENT = 'new content'
 
 
 @pytest.mark.django_db
@@ -353,3 +361,56 @@ def test_read_already_viewed_article(client, math_article, User2):
     num_views2 = response.context['article'].num_of_views
     #  checking that num views didn't increased
     assert num_views2 == num_views1
+
+
+@pytest.mark.django_db
+def test_delete_article(client, article):
+    # Test article in DB
+    assert article in set(Article.objects.all())
+
+    # Test deletion response
+    response = client.get(f"/delete_article/{article.id}/")
+    assert response.status_code == 302
+
+    # Test article deletion
+    assert article not in set(Article.objects.all())
+
+
+@pytest.mark.django_db
+def test_fail_delete_article(client):
+    response = client.get(f"/delete_article/{INVALID_ARTICLE}/")
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_edit_article(client, article):
+    # test the article before edit
+    assert article.title != NEW_TITLE
+
+    # test article editing
+    data = {"title": NEW_TITLE, "subject_id": NEW_SUBJECT, "content": NEW_CONTENT}
+    response = client.post(f"/edit_article/{article.id}/", data=data)
+    assert response.status_code == 302
+    assert response.url == f"/my_articles/{article.user_id.nickname}/"
+
+    edited_article = Article.objects.get(pk=article.id)
+    assert edited_article.title == NEW_TITLE
+    assert edited_article.subject_id.id == NEW_SUBJECT
+    assert edited_article.content == NEW_CONTENT
+
+
+@pytest.mark.django_db
+def test_edit_invalid_article(client):
+    response = client.get(f"/edit_article/{INVALID_ARTICLE}/")
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_edit_article_form():
+    form_data = {
+        'title': VALID_TITLE,
+        'subject': VALID_SUBJECT,
+        'content': VALID_CONTENT
+    }
+    form = EditArticleForm(data=form_data)
+    assert form.is_valid

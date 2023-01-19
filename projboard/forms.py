@@ -36,3 +36,9 @@ class NewUserForm(forms.ModelForm):
 
         if password != password_confirm:
             raise forms.ValidationError("Passwords do not match")
+
+
+class EditArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ('title', 'subject_id', 'content')

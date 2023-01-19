@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models.user import User
 from .models.subject import Subject
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import CreateArticleForm, NewUserForm
+from .forms import CreateArticleForm, NewUserForm, EditArticleForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
@@ -156,4 +156,44 @@ def show_article(request, user_nickname, article_pk):
         return render(request, 'show/read_article.html', {'article': article, 'user': user, 'liked': liked})
 
     except ObjectDoesNotExist:
+        raise Http404()
+
+
+def delete_article(request, article_pk):
+    try:
+        article = Article.objects.get(id=article_pk)
+        user = article.user_id
+        article.delete()
+        nickname = user.nickname
+        return redirect(f"/my_articles/{nickname}/")
+
+    except Article.DoesNotExist:
+        raise Http404()
+
+
+def edit_article(request, article_pk=None):
+    try:
+        article = Article.objects.get(id=article_pk)
+        user_id = article.user_id
+
+        title = article.title
+        subject_id = article.subject_id
+        content = article.content
+
+        initial = {'title': title, 'subject_id': subject_id, 'content': content}
+
+        if request.method == "POST":
+            form = EditArticleForm(request.POST)
+            if form.is_valid():
+                article.edit(form.data['title'], form.data['content'], form.cleaned_data['subject_id'])
+                return redirect(f"/my_articles/{user_id.nickname}/")
+        elif request.method == "DELETE":
+            raise Http404()
+        else:
+            form = EditArticleForm(initial=initial)
+
+        return render(request, 'editArticle/edit_article.html', {
+            'form': form
+        })
+    except Article.DoesNotExist:
         raise Http404()

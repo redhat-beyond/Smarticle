@@ -26,6 +26,8 @@ urlpatterns = [
     path('my_articles/<str:nickname>/', views.my_articles, name="my_articles"),
     path('signup/', views.sign_up, name='signup'),
     path('article/<str:user_nickname>/<str:article_pk>/', views.show_article, name='show_article'),
+    path('edit_article/<str:article_pk>/', views.edit_article, name='edit_article'),
+    path('delete_article/<str:article_pk>/', views.delete_article, name='delete_article')
 ]
 
 handler404 = views.error_404
