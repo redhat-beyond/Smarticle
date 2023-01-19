@@ -97,9 +97,17 @@ def my_articles(request, nickname=''):
         raise Http404()
 
 
-def home_page(request):
+def home_page(request, user_nickname=None):
     articles = []
     articles = Article.objects.all()
+    if user_nickname is not None:
+        try:
+            user = User.get_user_by_nickname(user_nickname)
+        except ObjectDoesNotExist:
+            raise Http404
+        return render(request, 'landing/homepage.html', {'articles': articles,
+                                                         'user': user})
+
     return render(request, 'landing/homepage.html', {'articles': articles})
 
 
@@ -121,7 +129,7 @@ def sign_up(request):
             nickname = form.cleaned_data.get('nickname')
             messages.success(request, 'Account '+nickname+' created successfully')
             # CHANGE THIS TO login
-            return redirect('homepage')
+            return redirect('login')
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
@@ -159,6 +167,15 @@ def show_article(request, user_nickname, article_pk):
 
     except ObjectDoesNotExist:
         raise Http404()
+
+
+def show_article_for_guest(request, article_pk):
+    try:
+        article = Article.objects.get(pk=article_pk)
+    except ObjectDoesNotExist:
+        raise Http404()
+
+    return render(request, 'show/read_article.html', {'article': article})
 
 
 def delete_article(request, article_pk):

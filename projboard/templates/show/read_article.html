@@ -33,6 +33,7 @@
         </header>
         <footer>
             <hr>
+            {% if request.user.is_authenticated %}
             <form method="POST">
             <div class="footer">
                 {% csrf_token %}
@@ -53,6 +54,7 @@
                 </strong></p>
             </div>
             </form>
+            {% endif %}
         </footer>
     </article>
 </main>
