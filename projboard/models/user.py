@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User as Custom_user
 
 
 class User(models.Model):
@@ -9,6 +10,7 @@ class User(models.Model):
     name- User's name
     nickname- User's nickname
     """
+    user1 = models.OneToOneField(Custom_user, on_delete=models.CASCADE, null=True)
     email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=70)
     name = models.CharField(max_length=100)

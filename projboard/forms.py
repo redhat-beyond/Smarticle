@@ -1,6 +1,7 @@
 from django import forms
 from .models.article import Article
-from projboard.models.user import User
+from django.contrib.auth.models import User as Custom_user
+from .models.user import User
 
 
 class CreateArticleForm(forms.ModelForm):
@@ -42,3 +43,15 @@ class EditArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ('title', 'subject_id', 'content')
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Custom_user
+        fields = ('username', 'password', 'email')
+
+
+class CustomUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('nickname', 'name')

@@ -3,11 +3,13 @@ from django.shortcuts import render, redirect
 from .models.user import User
 from .models.subject import Subject
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import CreateArticleForm, NewUserForm, EditArticleForm
+from .forms import CreateArticleForm, UserForm, CustomUserForm, NewUserForm, EditArticleForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
 
 def error_404(request, exception):
@@ -197,3 +199,50 @@ def edit_article(request, article_pk=None):
         })
     except Article.DoesNotExist:
         raise Http404()
+
+
+@login_required
+def custom_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        custom_user_form = CustomUserForm(
+            request.POST, instance=request.user.user
+        )
+        if user_form.is_valid() and custom_user_form.is_valid():
+            user_form.save()
+            custom_user_form.save()
+            messages.success(request, 'Your account has been updated!')
+            return redirect(home_page)
+    else:
+        user_form = UserForm(instance=request.user)
+        custom_user_form = CustomUserForm(instance=request.user.user)
+
+    return render(
+        request,
+        'login/login.html',
+        {'user_form': user_form, 'custom_user_form': custom_user_form},
+    )
+
+
+def login_user(request):
+    if request.user.is_authenticated:
+        return redirect("/")
+    else:
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("/")
+            else:
+                messages.info(request, "Username OR password is incorrect")
+    return render(
+        request,
+        "login/login.html",
+    )
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("login")

@@ -7,10 +7,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('projboard', '0003_alter_article_subject_id'),
+        ('projboard', '0009_user_user1'),
     ]
 
     def generate_user_data(apps, schema_editor):
         from projboard.models.user import User
+        from django.contrib.auth.models import User as Custom_user
 
         test_data = [
             ['Smarticle@walla.co.il', '123456', 'John Doe', 'User1'],
@@ -20,7 +22,8 @@ class Migration(migrations.Migration):
         ]
         with transaction.atomic():
             for u in test_data:
-                User(email=u[0], password=u[1], name=u[2], nickname=u[3]).save()
+                user = Custom_user.objects.create_user(username=u[3], password=u[1])
+                User(email=u[0], password=u[1], name=u[2], nickname=u[3], user1=user).save()
 
     operations = [
         migrations.RunPython(generate_user_data),

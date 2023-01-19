@@ -1,7 +1,6 @@
 import pytest
 from projboard.models.article import Article, User, View_Article, Like, Subject
 
-
 TITLE = "Article Test"
 CONTENT = "I'm not gonna write all that!"
 VALID_USER = "smarticleUser"

@@ -16,8 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from projboard import views
-from accounts.views import login_form
-from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +27,10 @@ urlpatterns = [
     path('signup/', views.sign_up, name='signup'),
     path('article/<str:user_nickname>/<str:article_pk>/', views.show_article, name='show_article'),
     path('edit_article/<str:article_pk>/', views.edit_article, name='edit_article'),
-    path('delete_article/<str:article_pk>/', views.delete_article, name='delete_article')
+    path('delete_article/<str:article_pk>/', views.delete_article, name='delete_article'),
+    path('logout/', views.logout_user, name='logout'),
+    path('login/', views.login_user, name="login")
+
 ]
 
 handler404 = views.error_404
