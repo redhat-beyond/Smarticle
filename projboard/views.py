@@ -20,6 +20,7 @@ def error_404(request, exception):
 def search(request, user_nickname):
 
     try:
+        user_nickname = request.user.username
         user = User.get_user_by_nickname(user_nickname)
     except ObjectDoesNotExist:
         raise Http404()
@@ -84,6 +85,7 @@ def create_article(request):
 
 def my_articles(request, nickname=''):
     try:
+        nickname = request.user.username
         user = User.get_user_by_nickname(nickname)
         my_articles = Article.search_by_user(user)
         num_articles = len(my_articles)

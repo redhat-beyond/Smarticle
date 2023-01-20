@@ -53,10 +53,11 @@ def User2():
 
 
 @pytest.mark.django_db
-def test_get_searchpage(client, User2):
-    response = client.get(f"/search/{User2.nickname}/")
+def test_get_searchpage(client, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.get(f"/search/{user.nickname}/")
     assert response.status_code == 200
-    assert response.context['user'] == User2
+    assert response.context['user'] == user
     assert [] == response.context[ARTICLES]
     assert '' == response.context[SEARCHINPUT]
     assert 'title' == response.context[SEARCHMETHOD]
@@ -107,8 +108,9 @@ def articles_by_user():
 
 
 @pytest.mark.django_db
-def test_valid_title_searchpage_results(client, articles_by_title, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': VALIDTITLE, 'searchOptions': 'title'})
+def test_valid_title_searchpage_results(client, articles_by_title, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': VALIDTITLE, 'searchOptions': 'title'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == VALIDTITLE
     for i in response.context[ARTICLES]:
@@ -118,8 +120,9 @@ def test_valid_title_searchpage_results(client, articles_by_title, User2):
 
 
 @pytest.mark.django_db
-def test_invalid_title_searchpage_results(client, invalid_articles_by_title, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': INVALIDINPUT, 'searchOptions': 'title'})
+def test_invalid_title_searchpage_results(client, invalid_articles_by_title, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': INVALIDINPUT, 'searchOptions': 'title'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == INVALIDINPUT
     for i in response.context[ARTICLES]:
@@ -129,8 +132,9 @@ def test_invalid_title_searchpage_results(client, invalid_articles_by_title, Use
 
 
 @pytest.mark.django_db
-def test_valid_subject_searchpage_results(client, articles_by_subject, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': VALIDSUBJECT, 'searchOptions': 'subject'})
+def test_valid_subject_searchpage_results(client, articles_by_subject, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': VALIDSUBJECT, 'searchOptions': 'subject'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == VALIDSUBJECT
     for i in response.context[ARTICLES]:
@@ -140,8 +144,9 @@ def test_valid_subject_searchpage_results(client, articles_by_subject, User2):
 
 
 @pytest.mark.django_db
-def test_invalid_subject_searchpage_result(client, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': INVALIDSUBJECT, 'searchOptions': 'subject'})
+def test_invalid_subject_searchpage_result(client, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': INVALIDSUBJECT, 'searchOptions': 'subject'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == INVALIDSUBJECT
     assert response.context[COUNT] == 0
@@ -149,8 +154,9 @@ def test_invalid_subject_searchpage_result(client, User2):
 
 
 @pytest.mark.django_db
-def test_valid_user_searchpage_results(client, articles_by_user, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': VALIDUSER, 'searchOptions': 'user'})
+def test_valid_user_searchpage_results(client, articles_by_user, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': VALIDUSER, 'searchOptions': 'user'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == VALIDUSER
     for i in response.context[ARTICLES]:
@@ -160,8 +166,9 @@ def test_valid_user_searchpage_results(client, articles_by_user, User2):
 
 
 @pytest.mark.django_db
-def test_invalid_user_searchpage_result(client, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': INVALIDUSER, 'searchOptions': 'user'})
+def test_invalid_user_searchpage_result(client, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': INVALIDUSER, 'searchOptions': 'user'})
     assert response.status_code == 200
     assert response.context[SEARCHINPUT] == INVALIDUSER
     assert response.context[COUNT] == 0
@@ -169,8 +176,9 @@ def test_invalid_user_searchpage_result(client, User2):
 
 
 @pytest.mark.django_db
-def test_empty_searchpage_results(client, User2):
-    response = client.post(f'/search/{User2.nickname}/', {'searchInput': '', 'searchOptions': 'title'})
+def test_empty_searchpage_results(client, user):
+    client.login(username=user.nickname, password=user.password)
+    response = client.post(f'/search/{user.nickname}/', {'searchInput': '', 'searchOptions': 'title'})
     assert response.context[MESSAGE] == EMPTY_TITLE_MESSAGE
 
 
@@ -216,6 +224,7 @@ def test_fill_article_delete(client):
 @pytest.mark.django_db
 def test_get_my_articles(client, user, user_articles):
     # test a correct nickname
+    client.login(username=user.nickname, password=user.password)
     response = client.get(f"/my_articles/{user.nickname}/")
     assert response.status_code == 200
 

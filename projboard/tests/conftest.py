@@ -1,12 +1,15 @@
 import pytest
 from projboard.models.article import Article, User, View_Article, Like, Subject
+from django.contrib.auth.models import User as Custom_user
 
 TITLE = "Article Test"
 CONTENT = "I'm not gonna write all that!"
 VALID_USER = "smarticleUser"
 VALID_EMAIL = "user@telhai.ac.il"
 VALID_NAME = "smarticleName"
+VALID_NICKNAME = 'johndoe'
 VALID_PASSWORD = "smarticlePassword"
+INVALID_NAME = "invalidName"
 INVALID_EMAIL = "user.telhai.ac.il"
 INVALID_PASSWORD_MISMATCH = "smarticlePasswordMismatch"
 LOGIN_PATH = "login/login.html"
@@ -24,7 +27,9 @@ VALID_DATA = {
 @pytest.fixture
 @pytest.mark.django_db
 def user():
-    user = User(name="my_username", nickname="my_nickname", email="my_email@gmail.com", password="my_password")
+    user1 = Custom_user.objects.create_user(username="my_nickname", password="my_password")
+    user = User(name="my_username", nickname="my_nickname", email="my_email@gmail.com", password="my_password",
+                user1=user1)
     user.save()
     return user
 
@@ -32,7 +37,9 @@ def user():
 @pytest.fixture
 @pytest.mark.django_db
 def users(user):
-    new_user = User(name="John", nickname="J99", email="John@gmail.com", password="John123")
+    user1 = Custom_user.objects.create_user(username="J99", password="John123")
+    new_user = User(name="John", nickname="J99", email="John@gmail.com",
+                    password="John123", user1=user1)
     new_user.save()
     return [user, new_user]
 
