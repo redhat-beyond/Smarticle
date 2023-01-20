@@ -92,12 +92,17 @@
           <strong>Category</strong>: {% if article.subject_id == null %} Unknown
           {% else %} {{article.subject_id}} {% endif %}
         </p>
+        {% if request.user.is_authenticated %}
         <!-- LATER ONLY AUTHINTECATED USER CAN USE IT-->
         <a
-          href="{% url 'show_article' user_nickname=article.user_id.nickname article_pk=article.pk %}"
-        >
+          href="{% url 'show_article' user_nickname=user article_pk=article.id %}">
           <button class="btn" role="submit">View Blog</button>
         </a>
+        {% else %}
+        <a href="{% url 'show_article_for_guest' article_pk=article.id  %}">
+          <button class="btn" role="submit">View Blog</button>
+        </a>
+        {% endif %}
       </article>
       <hr />
       {% endfor %}

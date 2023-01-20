@@ -1,0 +1,67 @@
+:root {
+    --gradient-primary: linear-gradient(to top left, #39b385, #9be15d);
+}
+
+.content-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+}
+
+.user_card {
+    width: 350px;
+    margin-top: 10px;
+    margin-bottom: auto;
+    background: #d6e0f3;
+    ;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+  }
+
+.highlight {
+    position: relative;
+}
+  
+.highlight::after {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    opacity: 0.7;
+    transform: scale(1.07, 1.05) skewX(-15deg);
+    background-image: var(--gradient-primary);
+}
+
+.form_container {
+    margin-top: 20px;
+}
+
+.login_btn {
+    width: 100%;
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.input-group-text {
+    background: var(--gradient-primary);
+    color: white;
+    border: 0;
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+#messages{
+    background-color: lightgray;
+    color: darkslategray;
+    padding: 10px;
+    margin-top: 10px;
+}
+

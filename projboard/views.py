@@ -3,11 +3,13 @@ from django.shortcuts import render, redirect
 from .models.user import User
 from .models.subject import Subject
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import CreateArticleForm, NewUserForm, EditArticleForm
+from .forms import CreateArticleForm, UserForm, CustomUserForm, NewUserForm, EditArticleForm
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
 
 def error_404(request, exception):
@@ -18,6 +20,7 @@ def error_404(request, exception):
 def search(request, user_nickname):
 
     try:
+        user_nickname = request.user.username
         user = User.get_user_by_nickname(user_nickname)
     except ObjectDoesNotExist:
         raise Http404()
@@ -82,6 +85,7 @@ def create_article(request):
 
 def my_articles(request, nickname=''):
     try:
+        nickname = request.user.username
         user = User.get_user_by_nickname(nickname)
         my_articles = Article.search_by_user(user)
         num_articles = len(my_articles)
@@ -95,9 +99,17 @@ def my_articles(request, nickname=''):
         raise Http404()
 
 
-def home_page(request):
+def home_page(request, user_nickname=None):
     articles = []
     articles = Article.objects.all()
+    if user_nickname is not None:
+        try:
+            user = User.get_user_by_nickname(user_nickname)
+        except ObjectDoesNotExist:
+            raise Http404
+        return render(request, 'landing/homepage.html', {'articles': articles,
+                                                         'user': user})
+
     return render(request, 'landing/homepage.html', {'articles': articles})
 
 
@@ -119,7 +131,7 @@ def sign_up(request):
             nickname = form.cleaned_data.get('nickname')
             messages.success(request, 'Account '+nickname+' created successfully')
             # CHANGE THIS TO login
-            return redirect('homepage')
+            return redirect('login')
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
@@ -157,6 +169,15 @@ def show_article(request, user_nickname, article_pk):
 
     except ObjectDoesNotExist:
         raise Http404()
+
+
+def show_article_for_guest(request, article_pk):
+    try:
+        article = Article.objects.get(pk=article_pk)
+    except ObjectDoesNotExist:
+        raise Http404()
+
+    return render(request, 'show/read_article.html', {'article': article})
 
 
 def delete_article(request, article_pk):
@@ -197,3 +218,50 @@ def edit_article(request, article_pk=None):
         })
     except Article.DoesNotExist:
         raise Http404()
+
+
+@login_required
+def custom_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        custom_user_form = CustomUserForm(
+            request.POST, instance=request.user.user
+        )
+        if user_form.is_valid() and custom_user_form.is_valid():
+            user_form.save()
+            custom_user_form.save()
+            messages.success(request, 'Your account has been updated!')
+            return redirect(home_page)
+    else:
+        user_form = UserForm(instance=request.user)
+        custom_user_form = CustomUserForm(instance=request.user.user)
+
+    return render(
+        request,
+        'login/login.html',
+        {'user_form': user_form, 'custom_user_form': custom_user_form},
+    )
+
+
+def login_user(request):
+    if request.user.is_authenticated:
+        return redirect("/")
+    else:
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("/")
+            else:
+                messages.info(request, "Username OR password is incorrect")
+    return render(
+        request,
+        "login/login.html",
+    )
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("login")

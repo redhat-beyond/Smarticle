@@ -34,47 +34,47 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
+          {% if request.user.is_authenticated %}
           <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/search/''">Search Article</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/my_articles/''">My Articles</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/create_article">Create Article</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/search/''">Search Article</a>
-            </li>
+          </ul >
+			    {% endif %}
+          <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link" href="/about">About</a>
             </li>
           </ul>
         </div>
-        <!-- SET UP ITS CSS LATER-->
-        {% if not user.is_authenticated %}
-        <ul class="nav__links">
-          <li class="nav__item">
-            <a class="nav__link nav__link--btn" href="/signup"
-              >Open account</a
-            >
-          </li>
-        </ul>
-        {% else %}
-
-        <ul class="nav__links">
-          <li class="nav__item">
-            <a class="nav__link nav__link--btn" href="/"
-              >Logout</a
-            >
-          </li>
-        </ul>
-        {% endif %}
-
-
-
-
-
+          <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="accountDisplay" role="button"
+                             data-bs-toggle="dropdown" aria-expanded="false">
+                  Welcome {{ request.user.get_username }}!
+                </a>
+              <ul class="dropdown-menu" aria-labelledby="accountDisplay">
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              </ul>
+            </li>
+          {% else %}
+          <ul class="nav__links">
+            <li class="nav__item">
+              <a class="nav__link nav__link--btn" href="/login"
+                >Login</a
+              >
+            </li>
+          </ul>
+          {% endif %}
+          </ul>   
     </nav>
-
 
     <main>
       <br /><br />

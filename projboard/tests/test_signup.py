@@ -53,11 +53,11 @@ def test_valid_registration(client):
     assert response.status_code == 302
     assert User.get_user_by_nickname(VALID_USER)
     # THIS ASSERT IS SETTED FOR HOMEPAGE BECAUSE /LOGIN ARENT READY YET
-    assert response.url == '/'
+    assert response.url == '/login/'
     redirect_response = client.get(response.url)
     assert redirect_response.status_code == 200
     template_names = set(tmpl.origin.template_name for tmpl in redirect_response.templates)
-    assert 'landing/homepage.html' in template_names
+    assert 'login/login.html' in template_names
 
 
 @pytest.mark.django_db

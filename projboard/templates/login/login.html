@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<haed>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+</head>
+<div class="content-container">
+    <h1>
+      <!-- Green highlight effect -->
+      <span class="highlight">LOGIN</span>
+      <br />
+    </h1>
+</div>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center form_container">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" name="username" placeholder="Username..." class="form-control">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                                <input type="password" name="password" placeholder="Password..." class="form-control" >
+                        </div>
+                            {%  for message in messages %}
+                             <p id="messages">{{ message }}</p>
+                            {% endfor %}
+                            <div class="d-flex justify-content-center mt-3 login_container">
+                                <input class="btn login_btn" type="submit" value="Login">
+                            </div>
+                    </form>
+
+                </div>
+                <div class="mt-4">
+                    <div class="d-flex justify-content-center links">
+                        Don't have an account? <a href="{% url 'signup' %}" class="ml-2">Sign Up</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
