@@ -35,3 +35,7 @@ In order to run **Smarticle** you should install:
 2. Navigate via terminal to the cloned directory.
 3. Run the 'vagrant up' command
 4. Use any browser and navigate to http://localhost:8000.
+
+
+## App's Demo Video:
+[![Smarticle App Demo](https://img.youtube.com/vi/paSTRNoKKuI/0.jpg)](https://youtu.be/paSTRNoKKuI "Smarticle App Demo")
